@@ -433,7 +433,7 @@ class Group: # builds group devices and adjusts trunk call capacity
     def __init__(self, enterpriseID, groupID):
         self.enterpriseID = enterpriseID
         self.groupID = groupID
-        self.getDefaultDomain()
+        self.domain = None
 
     def getDefaultDomain(self): # gets default domain for group
         global groupDomain

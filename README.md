@@ -1,2 +1,2 @@
 # EVA Builder
-This is the github repository for eva builder.
+This is the github repository for eva builder Poly version.
