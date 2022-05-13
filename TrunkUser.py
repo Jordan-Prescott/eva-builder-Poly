@@ -149,3 +149,6 @@ class TrunkUser: # Builds EVA Trunk Users
 
         response = requests.put(a.api_host+endpoint, headers=headers, data=json.dumps(data))
         return response.json()
+
+    def __repr__(self) -> str:
+        return f"ID: {self.id}, Extension: {self.number}, Type: {self.type}, Pilot: {self.isPilot}, Trunk: {self.trunk}, UserID: {self.userId}, Password: {self.password}"

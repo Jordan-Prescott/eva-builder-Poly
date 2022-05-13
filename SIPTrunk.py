@@ -76,3 +76,6 @@ class sipTrunk: # Builds group sip trunks
         # API call
         response = requests.post(a.api_host+endpoint,data=json.dumps(payload),headers=headers)
         return response.json()
+
+    def __repr__(self) -> str:
+        return f"Type: {self.type}, Password: {self.password}, Max Active Calls: {self.maxActiveCalls}"
