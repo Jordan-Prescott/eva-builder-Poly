@@ -77,3 +77,6 @@ class hg: # builds internal and external hunt groups
         # API call
         response = requests.post(a.api_host+endpoint, headers=headers, data=json.dumps(data))
         return response.json()
+
+    def __repr__(self) -> str:
+        return f"Type: {self.type}, Extension: {self.extension}"

@@ -73,3 +73,5 @@ class grp: # builds group devices and adjusts trunk call capacity
         response = requests.get(a.api_host+endpoint,data=data,headers=headers)
         return response.json()   
 
+    def __repr__(self) -> str:
+        return f'EnterpriseID: {self.enterpriseID}, GroupID: {self.groupID}, Domain: {self.domain}'

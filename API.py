@@ -13,12 +13,15 @@ class api:
         self.password = password
         self.api_host = None
         self.token = None
-    
+        self.region = None
+
     def setAPIHost(self, region): # sets the API host based on the region
         if region == "EU": 
             self.api_host = "https://fourteenip-eu.prod.odinapi.net/api/v2"
+            self.region = region
         elif region == "US": 
             self.api_host = "https://fourteenip.prod.odinapi.net/api/v2"
+            self.region = region
 
     def getToken(self): # gets the token from the API
         if self.token == None: # checks if the token is already set

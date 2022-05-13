@@ -3,10 +3,7 @@ from math import trunc
 import string
 from random import randint, choice
 import getpass
-import logging
 from types import BuiltinMethodType
-import requests
-import json
 
 #classes
 import API
@@ -22,7 +19,7 @@ username = ""
 password = ""
 serviceProviderID = ""
 groupID = ""
-evaAgentType = ""
+evaAgentType = "SIP-DID"
 evaAgentCount = ""
 groupDomain = ""
 token = ""
@@ -97,6 +94,7 @@ def main(): # main function
     global serviceProviderID
     global groupID
     global evaAgentCount
+    global evaAgentType
     global internalcalls
     global externalcalls
     
@@ -112,7 +110,6 @@ def main(): # main function
     a = API.api(username, password)
     a.setAPIHost(region.upper())
     a.getToken()
-    
 
     serviceProviderID = str(input("\nService Provider or Enterprise ID: "))
     groupID = str(input("Group ID: "))
@@ -133,7 +130,7 @@ def main(): # main function
 
     #input validation
     print("\nInput Validation:" + "\nREMINDER: Magic is case sensitive" + "\n")
-    displayInputs()
+    displayInputs(a)
     menuChoice = str(input("Is all data correct? (y/n): "))
 
     if menuChoice == "n": # input validation to confirm the data is correct and no errors are thrown or wrong endpoint is chosen
@@ -251,16 +248,23 @@ def main(): # main function
         extOflowHGSB = HuntGroup.hg("externaloflowSB", "141416")
         extOflowHGSB.buildHG(a, g)
     
+    # TODO: remove below later just for testing
+    print(a)
+    print(g)
+    print(enterprise)
+    print(st)
+    print(extOflowHG)
+    print(extOflowHGSB)
+    print(intOflowHG)
+    print(intOflowHGSB)
+
+
     ## print outputs
     print("Build complete.")
     print("\n## Credentials ##")
     print("Primary Trunk Register Username: " + g.groupID + users[1]['id'] + "@" + g.domain)
     print("Primary Trunk Authentication Username: "+str(st.username))
     print("Primary Trunk Password: "+str(st.password))
-    
 
 if __name__ == "__main__":
-
-    # outputs logs into file below
-    logging.basicConfig(filename="evabuilder_log.txt", encoding="utf-8", level=logging.DEBUG)
     main()
