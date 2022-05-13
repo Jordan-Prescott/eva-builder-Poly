@@ -5,18 +5,19 @@ import json
 
 class TrunkUser: # Builds EVA Trunk Users
     '''trunkUser class - user object built againts a trunk'''
-    def __init__(self, number, agentType, isPilot, password):
+    def __init__(self, id, number, agentType, isPilot, userId, trunk, password):
         '''init variables'''
         super().__init__()
-
+        
+        self.id = id
         self.number = number
         self.type = agentType
         self.isPilot = isPilot
-        self.trunk = None
-        self.userId = None
+        self.trunk = trunk
+        self.userId = userId
         self.password = password
 
-    def buildUser(self, a, g):
+    def buildUser(self, a, g): # builds user 
         endpoint = "/users"
         headers = {
             "Authorization": "Bearer "+a.token,
@@ -24,50 +25,40 @@ class TrunkUser: # Builds EVA Trunk Users
         }
         payload = {
             "userId": self.userId,
-            "lastName": "EVA_Agent_"+str(self.number),
+            "lastName": self.id,
             "callingLineIdFirstName": g.groupID,
-            "callingLineIdLastName": "EVA_Agent_"+str(self.number),
+            "callingLineIdLastName": self.id,
             "firstName": g.groupID,
             "password": self.password,
             "serviceProviderId": g.enterpriseID,
             "groupId": g.groupID
         }
-        # sets name accordingly in api request for purpose 
-        if self.trunk == "externaloflow":
-            payload["lastName"] = "External Overflow"
-            payload["callingLineIdLastName"] = "External Overflow"
-        elif self.trunk == "internaloflow":
-            payload["lastName"] = "Internal Overflow"
-            payload["callingLineIdLastName"] = "Internal Overflow"
-            
-        # api request to create trunk user
+        
         response = requests.post(a.api_host+endpoint, headers=headers, data=json.dumps(payload))
         return response.json()
     
-    def assigntoTrunk(self):
-        if self.trunk == "primary":
-            trunkGroup = "EVA_Primary"
-        elif self.trunk == "secondary":
-            trunkGroup = "EVA_Secondary"
-        elif self.trunk == "externaloflow":
+    def assigntoTrunk(self, a, g):
+        if self.trunk == "EVA_Poly":
+            trunkGroup = "EVA_Poly"
+        elif self.trunk == "EVA_ExternalOverflow":
             trunkGroup = "EVA_ExternalOverflow"
-        elif self.trunk == "internaloflow":
+        elif self.trunk == "EVA_InternalOverflow":
             trunkGroup = "EVA_InternalOverflow"
 
         endpoint = "/users"
         headers = {
-            "Authorization": "Bearer "+getToken(),
+            "Authorization": "Bearer "+a.token,
             "Content-Type": "application/json"
         }
         data = {
-            "serviceProviderID": str(serviceProviderID),
-            "groupId": str(groupID),
+            "serviceProviderID": str(g.enterpriseID),
+            "groupId": str(g.groupID),
             "userId": str(self.userId),
             "endpointType": "trunkAddressing",
             "trunkAddressing": {
                 "trunkGroupDeviceEndpoint": {
                     "name": trunkGroup,
-                    "linePort": "EVA_Agent_"+str(self.number)+"@"+str(groupDomain),
+                    "linePort": g.groupID+self.id+"@"+str(g.domain),
                     "staticRegistrationCapable": False,
                     "useDomain": True,
                     "isPilotUser": False,
@@ -77,21 +68,21 @@ class TrunkUser: # Builds EVA Trunk Users
             }
         }
 
-        if self.trunk == "internaloflow":
-            data["trunkAddressing"]["trunkGroupDeviceEndpoint"]["linePort"] = "EVA_InternalOverflow@"+str(groupDomain)
+        if self.trunk == "EVA_InternalOverflow":
+            data["trunkAddressing"]["trunkGroupDeviceEndpoint"]["linePort"] = "EVA_InternalOverflow@"+str(g.domain)
             del data["trunkAddressing"]["alternateTrunkIdentity"]
-        if self.trunk == "externaloflow":
-            data["trunkAddressing"]["trunkGroupDeviceEndpoint"]["linePort"] = "EVA_ExternalOverflow@"+str(groupDomain)
+        if self.trunk == "EVA_ExternalOverflow":
+            data["trunkAddressing"]["trunkGroupDeviceEndpoint"]["linePort"] = "EVA_ExternalOverflow@"+str(g.domain)
             del data["trunkAddressing"]["alternateTrunkIdentity"]
 
         # API call
-        response = requests.put(api_host+endpoint, headers=headers, data=json.dumps(data))
+        response = requests.put(a.api_host+endpoint, headers=headers, data=json.dumps(data))
         return response.json()
     
-    def assignServicePack(self):
+    def assignServicePack(self, a):
         endpoint = "/users/services"
         headers = {
-            "Authorization": "Bearer "+getToken(),
+            "Authorization": "Bearer "+a.token,
             "Content-Type": "application/json"
         }
         body = {
@@ -105,61 +96,56 @@ class TrunkUser: # Builds EVA Trunk Users
         }
 
         # API call
-        response = requests.put(api_host+endpoint, headers=headers, data=json.dumps(body))
+        response = requests.put(a.api_host+endpoint, headers=headers, data=json.dumps(body))
         return response.json()
 
-    def setAuthenticationPass(self):
+    def setAuthenticationPass(self, a, g):
         endpoint = "/users/authentication"
         headers = {
-            "Authorization": "Bearer "+getToken(),
+            "Authorization": "Bearer "+a.token,
             "Content-Type": "application/json"
         }
         data = {
             "userId": str(self.userId),
-            "userName": "EVA_Agent_"+str(self.number),
+            "userName": g.groupID + self.id,
             "newPassword": str(self.password)
         }
-        if self.type == "externaloflow":
-            data["userName"] = "EVA_ExternalOverflow"
-        elif self.type == "internaloflow":
-            data["userName"] = "EVA_InternalOverflow"
-        response = requests.put(api_host+endpoint,headers=headers,data=json.dumps(data))
+
+        response = requests.put(a.api_host+endpoint,headers=headers,data=json.dumps(data))
         return response.json()
         
-    def setExtensionNumber(self):
+    def setExtensionNumber(self, a, g):
         endpoint = "/users"
         headers = {
-            "Authorization": "Bearer "+getToken(),
+            "Authorization": "Bearer "+a.token,
             "Content-Type": "application/json"
         }
         data = json.dumps({
             "userId": str(self.userId),
-            "serviceProviderId": str(serviceProviderID),
-            "groupId": str(groupID),
+            "serviceProviderId": str(g.enterpriseID),
+            "groupId": str(g.groupID),
             "extension": str(self.number)
         })
-        response = requests.put(api_host+endpoint,headers=headers,data=data)
+        response = requests.put(a.api_host+endpoint,headers=headers,data=data)
         return response.json()
 
-    def setPilot(self):
+    def setPilot(self, a, g):
         endpoint = "/groups/trunk-groups"
         headers = {
-            "Authorization": "Bearer "+getToken(),
+            "Authorization": "Bearer "+a.token,
             "Content-Type": "application/json"
         }
         data = {
-            "serviceProviderId": str(serviceProviderID),
-            "groupId": str(groupID),
+            "serviceProviderId": str(g.enterpriseID),
+            "groupId": str(g.groupID),
             "pilotUserId": str(self.userId),
         }
-        if self.trunk == "primary":
-            data["name"] = "EVA_Primary"
-        elif self.trunk == "secondary":
-            data["name"] = "EVA_Secondary"
-        elif self.trunk == "internaloflow":
+        if self.trunk == "EVA_Poly":
+            data["name"] = "EVA_Poly"
+        elif self.trunk == "EVA_InternalOverflow":
             data["name"] = "EVA_InternalOverflow"
-        elif self.trunk == "externaloflow":
+        elif self.trunk == "EVA_ExternalOverflow":
             data["name"] = "EVA_ExternalOverflow"
 
-        response = requests.put(api_host+endpoint, headers=headers, data=json.dumps(data))
+        response = requests.put(a.api_host+endpoint, headers=headers, data=json.dumps(data))
         return response.json()

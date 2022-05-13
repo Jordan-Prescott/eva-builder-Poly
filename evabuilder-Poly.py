@@ -14,6 +14,8 @@ import ServiceProvider
 import Enterprise
 import Group
 import SIPTrunk
+import TrunkUser
+import HuntGroup
 
 #variables
 username = ""
@@ -26,6 +28,51 @@ groupDomain = ""
 token = ""
 internalcalls = False
 externalcalls = False
+users = [
+    {
+        "id": "141401_EVA_EL",
+        "extension": "141401",
+        "trunk": "EVA_Poly",
+        "pilot": True,
+        "license": evaAgentType
+    },
+    {
+        "id": "141402_EVA_IL",
+        "extension": "141402",
+        "trunk": "EVA_Poly",
+        "pilot": False,
+        "license": "SIP-DID"
+    },
+    {
+        "id": "141403_EVA_ES",
+        "extension": "141403",
+        "trunk": "EVA_Poly",
+        "pilot": False,
+        "license": "SIP-DID"
+    },
+    {
+        "id": "141404_EVA_IS",
+        "extension": "141404",
+        "trunk": "EVA_Poly",
+        "pilot": False,
+        "license": "SIP-DID"
+    },
+    {
+        "id": "141412_EVA_EOF",
+        "extension": "141412",
+        "trunk": "EVA_ExternalOverflow",
+        "pilot": True,
+        "license": "SIP-DID"
+    },
+    {
+        "id": "141413_EVA_IOF",
+        "extension": "141413",
+        "trunk": "EVA_InternalOverflow",
+        "pilot": True,
+        "license": "SIP-DID"
+    }
+]
+
 
 #methods
 def generatePassword(): # generates a random password for the user
@@ -126,7 +173,6 @@ def main(): # main function
     elif menuChoice == 'y':
         print('\nStarted script')
 
-
     # Create Enterprise or Service Provider Class
     if a.getEntType(serviceProviderID) == "enterprise": 
         enterprise = Enterprise.ent(serviceProviderID, "enterprise")
@@ -157,95 +203,60 @@ def main(): # main function
     print("Increasing group trunking call capacity")
 
     # Create trunk group classes
-    sp = SIPTrunk.sipTrunk("EVA_Poly", generatePassword(a), evaAgentCount)
+    st = SIPTrunk.sipTrunk("EVA_Poly", generatePassword(), evaAgentCount)
     print("Building sip trunks...")
-    sp.buildTrunk(g, a)
+    st.buildTrunk(g, a)
+
+    # build internal / external overflow TGs 
+    if externalcalls:
+        externaloflow = SIPTrunk.sipTrunk("EVA_ExternalOverflow")
+        externaloflow.buildTrunk()
+    if internalcalls:
+        internaloflow = SIPTrunk.sipTrunk("EVA_InternalOverflow")
+        internaloflow.buildTrunk()
     print("sip trunks built")
 
     # Create Users
     print("Building users")
-    users = []
-
-    # creates user objects and adds them to the list
-    for x in range(primaryPilotNumber, primaryPilotNumber + (evaAgentCount)):
-        user_id = "EVA_Agent_"+str(x)+"@"+groupDomain
-        users.append(TrunkUser(x,evaAgentType.upper(), False, userId=user_id))
-    # sets first two users as pilot     
-    users[0].isPilot = True
-    users[1].isPilot = True
-
-    ##review
-    for user in users:
-        user.trunk = "primary"
-    users[1].trunk = "secondary"
+    trunkUsers = []
+    for x in users:
+        user_id = groupID.upper() + "_" + x['id'] + "@" + groupDomain
+        trunkUsers.append(TrunkUser(x['id'], x['extension'], x['license'], x['pilot'], user_id, x['trunk'], password = generatePassword()))
 
     # builds user objects 
-    for user in users:
-        user.buildUser()
-        user.assignServicePack()
-        user.setAuthenticationPass()
-        user.setExtensionNumber()
-        user.assigntoTrunk()
-        if user.isPilot:
-            user.setPilot()
-        print("   Built user "+str(user.number))
-        
-    # build enterprise trunk
-    entTrunk = EnterpriseTrunk() # new object for enterprise trunk
-    print("Building Enterprise trunk")
-    entTrunk.buildTrunk()
-    print("Adding users to enterprise trunk")
-    entTrunk.addUsersToEnterpriseTrunk("EVA_Agent_"+str(primaryPilotNumber)+"@"+groupDomain, "EVA_Agent_"+str(primaryPilotNumber+1)+"@"+groupDomain)
-
-    
-    # build internal / external overflow TGs ##review
-    if externalcalls:
-        externaloflow = SipTrunk("externaloflow")
-        externaloflow.buildTrunk()
-    if internalcalls:
-        internaloflow = SipTrunk("internaloflow")
-        internaloflow.buildTrunk()
-
-    # build internal / external overflow users
-    if externalcalls: # if external calls are being used, create external overflow users
-        extoflowuser = TrunkUser(primaryPilotNumber-1,"SIP-DID",True,"externaloflow", userId="EVA_ExternalOverflow@"+groupDomain)
-        extoflowuser.buildUser()
-        extoflowuser.assignServicePack()
-        extoflowuser.setAuthenticationPass()
-        extoflowuser.setExtensionNumber()
-        extoflowuser.assigntoTrunk()
-        extoflowuser.setPilot()
+    for u in trunkUsers:
+        u.buildUser(a, g)
+        u.assignServicePack(a, g)
+        u.setAuthenticationPass(a, g)
+        u.setExtensionNumber(a, g)
+        u.assigntoTrunk(a, g)
+        if u.isPilot:
+            u.setPilot()
+        print("   Built user "+str(u.id))
         print("   Built external overflow user")
-
-    if internalcalls: # if internal calls are being used, create internal overflow users
-        intoflowuser = TrunkUser(primaryPilotNumber-2,"SIP-DID", True, "internaloflow", userId="EVA_InternalOverflow@"+groupDomain)
-        intoflowuser.buildUser()
-        intoflowuser.assignServicePack()
-        intoflowuser.setAuthenticationPass()
-        intoflowuser.setExtensionNumber()
-        intoflowuser.assigntoTrunk()
-        intoflowuser.setPilot()
         print("   Built internal overflow user")
 
     # build internal / external overflow HGs
     if internalcalls: # if internal calls, build internal overflow HG
-        intOflowHG = HuntGroup("internaloflow")
-        intOflowHG.buildHG("141414")
-        
+        intOflowHG = HuntGroup.hg("internaloflow", "141415")
+        intOflowHG.buildHG(a, g)
+
+        intOflowHGSB = HuntGroup.hg("internaloflowSB","141417")
+        intOflowHGSB.buildHG(a, g)
     
     if externalcalls: # if externa calls are being used, build external overflow HG
-        extOflowHG = HuntGroup("externaloflow")
-        extOflowHG.buildHG("141415")
+        extOflowHG = HuntGroup.hg("externaloflow", "141414")
+        extOflowHG.buildHG(a, g)
+
+        extOflowHGSB = HuntGroup.hg("externaloflowSB", "141416")
+        extOflowHGSB.buildHG(a, g)
     
     ## print outputs
     print("Build complete.")
     print("\n## Credentials ##")
-    print("Primary Trunk Register Username: EVA_Agent_"+str(users[0].number))
-    print("Primary Trunk Authentication Username: "+str(primaryTrunk.username))
-    print("Primary Trunk Password: "+str(primaryTrunk.password))
-    print("\nSecondary Trunk Register Username: EVA_Agent_"+str(users[1].number))
-    print("Secondary Trunk Authentication Username: "+str(secondaryTrunk.username))
-    print("Secondary Trunk Password: "+str(secondaryTrunk.password))
+    print("Primary Trunk Register Username: " + g.groupID + users[1]['id'] + "@" + g.domain)
+    print("Primary Trunk Authentication Username: "+str(st.username))
+    print("Primary Trunk Password: "+str(st.password))
     
 
 if __name__ == "__main__":
