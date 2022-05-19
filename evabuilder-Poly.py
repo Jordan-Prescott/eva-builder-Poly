@@ -89,17 +89,17 @@ def displayInputs(a): # displays the inputs for the user
 
 def main(): # main function
 
-    # # sets all below to global variables so they can be used in other function
-    # global username
-    # global password
-    # global serviceProviderID
-    # global groupID
-    # global evaAgentCount 
-    # global internalcalls
-    # global externalcalls
-    # global burstingCount
+    # sets all below to global variables so they can be used in other function
+    global username
+    global password
+    global serviceProviderID
+    global groupID
+    global evaAgentCount 
+    global internalcalls
+    global externalcalls
+    global burstingCount
     
-    # print("### Eva Builder Python App ###\n")
+    print("### Eva Builder Python App ###\n")
 
     region = input("Choose system [EU/US]: ")
 
@@ -255,7 +255,7 @@ def main(): # main function
     ## print outputs
     print("Build complete.")
     print("\n## Credentials ##")
-    print("Primary Trunk Register Username: " + g.groupID + users[1]['id'] + "@" + g.domain)
+    print("Primary Trunk Register Username: " + g.groupID + users[0]['id'] + "@" + g.domain)
     print("Primary Trunk Authentication Username: "+str(st.username))
     print("Primary Trunk Password: "+str(st.password))
 
