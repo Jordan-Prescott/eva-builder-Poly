@@ -3,7 +3,7 @@
 import requests
 import json
 
-class TrunkUser: # Builds EVA Trunk Users
+class trunkUser: # Builds EVA Trunk Users
     '''trunkUser class - user object built againts a trunk'''
     def __init__(self, id, number, agentType, isPilot, userId, trunk, password):
         '''init variables'''
@@ -90,6 +90,25 @@ class TrunkUser: # Builds EVA Trunk Users
             "servicePackServices": [
                 {
                     "serviceName": str(self.type.upper()),
+                    "assigned": True
+                }
+            ]
+        }
+
+        response = requests.put(a.api_host+endpoint, headers=headers, data=json.dumps(body))
+        return response.json()
+
+    def assignBurstServicePack(self, a, b):
+        endpoint = "/users/services"
+        headers = {
+            "Authorization": "Bearer "+a.token,
+            "Content-Type": "application/json"
+        }
+        body = {
+            "userId": str(self.userId),
+            "servicePackServices": [
+                {
+                    "serviceName": str(b.upper()),
                     "assigned": True
                 }
             ]

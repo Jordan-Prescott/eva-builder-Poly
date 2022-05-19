@@ -1,4 +1,5 @@
 #import
+from ast import Str
 from math import trunc
 import string
 from random import randint, choice
@@ -19,8 +20,8 @@ username = ""
 password = ""
 serviceProviderID = ""
 groupID = ""
-evaAgentType = "SIP-DID"
-evaAgentCount = ""
+evaAgentCount = 0
+burstingCount = 0
 groupDomain = ""
 token = ""
 internalcalls = False
@@ -31,7 +32,7 @@ users = [
         "extension": "141401",
         "trunk": "EVA_Poly",
         "pilot": True,
-        "license": evaAgentType
+        "license": "EVA-AGENT-" + str(evaAgentCount)
     },
     {
         "id": "141402_EVA_IL",
@@ -73,32 +74,32 @@ users = [
 
 #methods
 def generatePassword(): # generates a random password for the user
-    characters = string.ascii_letters + string.punctuation + string.digits + string.ascii_uppercase
+    characters = string.digits + string.ascii_letters + string.digits
     password = "".join(choice(characters) for x in range(randint(8,16)))
     return password
 
 def displayInputs(a): # displays the inputs for the user
-    print("[1] Region: " + a.region.upper()) # TODO: pull from api object
+    print("[1] Region: " + a.region.upper()) 
     print("[2] Service Provider ID: " + serviceProviderID)
     print("[3] Group ID: " + groupID)
     print("[4] Inernal Calls: " + str(internalcalls))
     print("[5] External Calls: " + str(externalcalls))
     print("[6] Agent Count: " + str(evaAgentCount))
-    print("[7] Agent Type: " + evaAgentType + "\n")
+    print("[7] Bursting Count: " + str(burstingCount) + "\n")
 
 def main(): # main function
 
-    # sets all below to global variables so they can be used in other function
-    global username
-    global password
-    global serviceProviderID
-    global groupID
-    global evaAgentCount
-    global evaAgentType
-    global internalcalls
-    global externalcalls
+    # # sets all below to global variables so they can be used in other function
+    # global username
+    # global password
+    # global serviceProviderID
+    # global groupID
+    # global evaAgentCount 
+    # global internalcalls
+    # global externalcalls
+    # global burstingCount
     
-    print("### Eva Builder Python App ###\n")
+    # print("### Eva Builder Python App ###\n")
 
     region = input("Choose system [EU/US]: ")
 
@@ -122,11 +123,11 @@ def main(): # main function
         externalcalls = True
 
     # takes in number of channels and this will affect license appiled later
-    evaAgentCount = int(input("Agent Count (Including Pilots): "))
-
-    # TODO: Check this will be dependant on licenses that Stu is still working through
-    # takes in agent type (different for SIP Trunk/ EV)
-    # evaAgentType = str(input("\nAgent Type [EVA-SVANL / EVA-VANL]: "))
+    evaAgentCount = int((input("\nAgent Count (Including Pilots): ")))
+    users[0]['license'] = "EVA-AGENT-" + str(evaAgentCount)
+    menuchoice = input("Will busrting be used? (y/n): ")
+    if menuchoice == "y":
+        burstingCount = int((input("    Please enter how many bursting channels are needed: ")))
 
     #input validation
     print("\nInput Validation:" + "\nREMINDER: Magic is case sensitive" + "\n")
@@ -156,16 +157,16 @@ def main(): # main function
                 if menuchoice == "y":
                     externalcalls = True
             elif numberChoice == "6":
-                evaAgentCount = int(input("Agent Count (Including Pilots): "))
+                evaAgentCount = int((input("Agent Count (Including Pilots): ")))
             elif numberChoice == "7":
-                evaAgentType = str(input("Agent Type [SIP-VANL / EVA-VANL]: "))
+                burstingCount = int(input("Please enter how many bursting channels are needed: "))
             else:
                 print("\nInvalid Input") 
 
             menuChoice = input('\nAdjust another entry? (y/n): ') # while control 
 
             if menuChoice == 'n':
-                displayInputs()
+                displayInputs(a)
                 break   
     elif menuChoice == 'y':
         print('\nStarted script')
@@ -183,7 +184,7 @@ def main(): # main function
     # If enterprise, increase enterprise trunking call capacities
     if enterprise.type == "enterprise":
         print("Increasing Enterprise Trunking Call Capacity")
-        enterprise.increaseCallCapacity(evaAgentCount + 1, a, 2)
+        enterprise.increaseCallCapacity(evaAgentCount + burstingCount, a)
 
     # Create Group Devices
     g.createDevice("EVA_Poly", a) 
@@ -196,42 +197,43 @@ def main(): # main function
         print("Creating Internal Overlfow Device")
 
     # Increase group trunking call capacities
-    g.increaseCallCapacity(evaAgentCount, a, 2)
+    g.increaseCallCapacity(evaAgentCount + burstingCount, a)
     print("Increasing group trunking call capacity")
 
     # Create trunk group classes
-    st = SIPTrunk.sipTrunk("EVA_Poly", generatePassword(), evaAgentCount)
+    st = SIPTrunk.sipTrunk("EVA_Poly", generatePassword(), evaAgentCount + burstingCount)
     print("Building sip trunks...")
     st.buildTrunk(g, a)
 
     # build internal / external overflow TGs 
     if externalcalls:
-        externaloflow = SIPTrunk.sipTrunk("EVA_ExternalOverflow")
-        externaloflow.buildTrunk()
+        externaloflow = SIPTrunk.sipTrunk("EVA_ExternalOverflow", generatePassword())
+        externaloflow.buildTrunk(g, a)
     if internalcalls:
-        internaloflow = SIPTrunk.sipTrunk("EVA_InternalOverflow")
-        internaloflow.buildTrunk()
+        internaloflow = SIPTrunk.sipTrunk("EVA_InternalOverflow", generatePassword())
+        internaloflow.buildTrunk(g, a)
     print("sip trunks built")
 
     # Create Users
     print("Building users")
     trunkUsers = []
     for x in users:
-        user_id = groupID.upper() + "_" + x['id'] + "@" + groupDomain
-        trunkUsers.append(TrunkUser(x['id'], x['extension'], x['license'], x['pilot'], user_id, x['trunk'], password = generatePassword()))
+        user_id = groupID.upper() + x['id'] + "@" + g.domain
+        trunkUsers.append(TrunkUser.trunkUser(x['id'], x['extension'], x['license'], x['pilot'], user_id, x['trunk'], password = generatePassword()))
 
     # builds user objects 
     for u in trunkUsers:
         u.buildUser(a, g)
-        u.assignServicePack(a, g)
+        u.assignServicePack(a)
         u.setAuthenticationPass(a, g)
         u.setExtensionNumber(a, g)
         u.assigntoTrunk(a, g)
         if u.isPilot:
-            u.setPilot()
+            u.setPilot(a, g)
         print("   Built user "+str(u.id))
-        print("   Built external overflow user")
-        print("   Built internal overflow user")
+
+    if burstingCount > 0:
+        trunkUsers[0].assignBurstServicePack(a, "EVA-AGENTB-" + str(burstingCount))
 
     # build internal / external overflow HGs
     if internalcalls: # if internal calls, build internal overflow HG
@@ -240,6 +242,7 @@ def main(): # main function
 
         intOflowHGSB = HuntGroup.hg("internaloflowSB","141417")
         intOflowHGSB.buildHG(a, g)
+        print("Internal Hunt Groups built.")
     
     if externalcalls: # if externa calls are being used, build external overflow HG
         extOflowHG = HuntGroup.hg("externaloflow", "141414")
@@ -247,17 +250,7 @@ def main(): # main function
 
         extOflowHGSB = HuntGroup.hg("externaloflowSB", "141416")
         extOflowHGSB.buildHG(a, g)
-    
-    # TODO: remove below later just for testing
-    print(a)
-    print(g)
-    print(enterprise)
-    print(st)
-    print(extOflowHG)
-    print(extOflowHGSB)
-    print(intOflowHG)
-    print(intOflowHGSB)
-
+        print("External Hunt Groups built.")
 
     ## print outputs
     print("Build complete.")

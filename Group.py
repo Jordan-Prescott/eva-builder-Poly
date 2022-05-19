@@ -41,10 +41,9 @@ class grp: # builds group devices and adjusts trunk call capacity
         response = requests.post(a.api_host+endpoint, data=json.dumps(payload), headers=headers)
         return response.json()
 
-    def increaseCallCapacity(self, channels, a, bursting=0): # increases call capacity of group
+    def increaseCallCapacity(self, channels, a): 
         currentCapacity = self.getCallCapacity(a)
         currentmaxcall = currentCapacity['maxActiveCalls']
-        currentbursting = currentCapacity['burstingMaxActiveCalls']
 
         endpoint = "/groups/trunk-groups/call-capacity"
         headers = {
@@ -56,8 +55,6 @@ class grp: # builds group devices and adjusts trunk call capacity
             "serviceProviderId": self.enterpriseID,
             "groupId": self.groupID
         }
-        if bursting != 0:
-            data["burstingMaxActiveCalls"] = currentbursting + bursting
         
         response = requests.put(a.api_host+endpoint,data=json.dumps(data),headers=headers) 
         return response.json()

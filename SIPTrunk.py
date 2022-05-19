@@ -5,7 +5,7 @@ import json
 
 class sipTrunk: # Builds group sip trunks 
     '''sipTrunk class - builds sip trunk under the group'''
-    def __init__(self, type, password, maxActiveCalls):
+    def __init__(self, type, password, maxActiveCalls = 1):
         ''' init variables'''
 
         self.type = type
@@ -16,12 +16,12 @@ class sipTrunk: # Builds group sip trunks
         if self.type == "EVA_Poly":
             trunkName = "EVA_Poly"
             self.username = trunkName+"@"+g.domain
-            deviceName = "EVA_Primary_Trunk"
-        elif self.type == "externaloflow":
+            deviceName = "EVA_Poly"
+        elif self.type == "EVA_ExternalOverflow":
             trunkName = "EVA_ExternalOverflow"
             self.username = trunkName+"@"+g.domain
             deviceName = "EVA_ExternalOverflow"
-        elif self.type == "internaloflow":
+        elif self.type == "EVA_InternalOverflow":
             trunkName ="EVA_InternalOverflow"
             self.username = trunkName+"@"+g.domain
             deviceName = "EVA_InternalOverflow"
@@ -33,7 +33,7 @@ class sipTrunk: # Builds group sip trunks
         }
         payload = { # data to be sent to API
             "name": trunkName,
-            "serviceProviderId": g.enterpiseID,
+            "serviceProviderId": g.enterpriseID,
             "groupId": g.groupID,
             "maxActiveCalls": self.maxActiveCalls,
             "enableBursting": True,
@@ -44,7 +44,7 @@ class sipTrunk: # Builds group sip trunks
             "trunkGroupIdentity": trunkName+"@"+g.domain,
             "allowUnscreenedCalls": True,
             "accessDevice":{
-                "serviceProviderId":g.enterpiseID,
+                "serviceProviderId":g.enterpriseID,
                 "groupId":g.groupID,
                 "deviceName":deviceName,
                 "deviceLevel":"Group"
@@ -68,7 +68,7 @@ class sipTrunk: # Builds group sip trunks
         }
 
         # adjusts call limit depending on type of trunk (only for internal and external overflow)
-        if self.type == "externaloflow" or self.type == "internaloflow":
+        if self.type == "EVA_ExternalOverflow" or self.type == "EVA_InternalOverflow":
             payload["maxActiveCalls"] = 1
             payload["enableBursting"] = False
             payload["burstingMaxActiveCalls"] = 0

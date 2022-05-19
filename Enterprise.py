@@ -12,13 +12,13 @@ class ent: #Enterprise object
         self.ID = ID
         self.type = type
 
-    def increaseCallCapacity(self, channels, a, bursting=0,):
+    def increaseCallCapacity(self, channels, a): #bursting=0 taken out check below TODO
         currentCapacity = self.getCallCapacity(a) 
         currentmaxcall = currentCapacity['maxActiveCalls']
-        currentbursting = currentCapacity['burstingMaxActiveCalls']
+        #currentbursting = currentCapacity['burstingMaxActiveCalls'] - TODO: Check if bursting is needed
 
-        if currentbursting == -1: # if no bursting capacity set to 0 
-            currentbursting = 0
+       # if currentbursting == -1: # if no bursting capacity set to 0 
+            #currentbursting = 0
         
         endpoint = "/service-providers/trunk-groups/call-capacity"
         headers = {
@@ -30,10 +30,9 @@ class ent: #Enterprise object
             "serviceProviderId": self.ID
         }
         
-        if bursting != 0: # if bursting capacity is set (passed into method increaseCallCapacity)
-            data["burstingMaxActiveCalls"] = currentbursting + bursting
+        # if bursting != 0: # if bursting capacity is set (passed into method increaseCallCapacity)
+        #     data["burstingMaxActiveCalls"] = currentbursting + bursting - check above TODO
 
-        # API call
         response = requests.put(a.api_host+endpoint,data=json.dumps(data),headers=headers) # PUT request so it uses payload to identify which group to adjust
         return response.json()
 
