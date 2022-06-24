@@ -64,16 +64,16 @@ class trunkUser: # Builds EVA Trunk Users
                     "isPilotUser": False,
                     "contacts": []
                 },
-                "alternateTrunkIdentity": self.number
+                #"alternateTrunkIdentity": self.number #5
             }
         }
 
         if self.trunk == "EVA_InternalOverflow":
             data["trunkAddressing"]["trunkGroupDeviceEndpoint"]["linePort"] = "EVA_InternalOverflow@"+str(g.domain)
-            del data["trunkAddressing"]["alternateTrunkIdentity"]
+            del data["trunkAddressing"] #["alternateTrunkIdentity"] #5
         if self.trunk == "EVA_ExternalOverflow":
             data["trunkAddressing"]["trunkGroupDeviceEndpoint"]["linePort"] = "EVA_ExternalOverflow@"+str(g.domain)
-            del data["trunkAddressing"]["alternateTrunkIdentity"]
+            del data["trunkAddressing"] #["alternateTrunkIdentity"] #5
 
         # API call
         response = requests.put(a.api_host+endpoint, headers=headers, data=json.dumps(data))

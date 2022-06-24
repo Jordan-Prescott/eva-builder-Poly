@@ -42,7 +42,7 @@ class sipTrunk: # Builds group sip trunks
             "sipAuthenticationUserName": trunkName,
             "sipAuthenticationPassword": self.password,
             "trunkGroupIdentity": trunkName+"@"+g.domain,
-            "allowUnscreenedCalls": True,
+            "allowUnscreenedCalls": False,
             "accessDevice":{
                 "serviceProviderId":g.enterpriseID,
                 "groupId":g.groupID,
