@@ -218,7 +218,7 @@ def main(): # main function
     print("Building users")
     trunkUsers = []
     for x in users:
-        user_id = groupID.upper() + x['id'] + "@" + g.domain
+        user_id = groupID + x['id'] + "@" + g.domain
         trunkUsers.append(TrunkUser.trunkUser(x['id'], x['extension'], x['license'], x['pilot'], user_id, x['trunk'], password = generatePassword()))
 
     # builds user objects 
