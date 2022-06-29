@@ -125,7 +125,7 @@ def main(): # main function
     # takes in number of channels and this will affect license appiled later
     evaAgentCount = int((input("\nAgent Count (Including Pilots): ")))
     users[0]['license'] = "EVA-AGENT-" + str(evaAgentCount)
-    menuchoice = input("Will busrting be used? (y/n): ")
+    menuchoice = input("Will bursting be used? (y/n): ")
     if menuchoice == "y":
         burstingCount = int((input("    Please enter how many bursting channels are needed: ")))
 
