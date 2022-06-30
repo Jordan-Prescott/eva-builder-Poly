@@ -14,6 +14,7 @@ import Group
 import SIPTrunk
 import TrunkUser
 import HuntGroup
+import fileManager
 
 #variables
 username = ""
@@ -99,6 +100,8 @@ def main(): # main function
     global externalcalls
     global burstingCount
     
+    fileManager.fm.clearErrors() #clears errors in ./lib/errors.txt from previous run
+
     print("### Eva Builder Python App ###\n")
 
     region = input("Choose system [EU/US]: ")
@@ -110,23 +113,30 @@ def main(): # main function
     #create api object
     a = API.api(username, password)
     a.setAPIHost(region.upper())
-    a.getToken()
+    
+    try:
+        a.getToken()
+    except KeyError:
+        print('ERROR: Username or Password incorrect.')
+        a.username = input("\nUsername: ") 
+        a.password = getpass.getpass()
+        a.getToken()
 
     serviceProviderID = str(input("\nService Provider or Enterprise ID: "))
     groupID = str(input("Group ID: "))
 
     menuchoice = str(input("\nWill EVA be used for internal calls? (y/n): "))
-    if menuchoice == "y":
+    if menuchoice == "y" or menuchoice == "Y":
         internalcalls = True
     menuchoice = str(input("Will EVA be used for external calls? (y/n): "))
-    if menuchoice == "y":
+    if menuchoice == "y" or menuchoice == "Y":
         externalcalls = True
 
     # takes in number of channels and this will affect license appiled later
     evaAgentCount = int((input("\nAgent Count (Including Pilots): ")))
     users[0]['license'] = "EVA-AGENT-" + str(evaAgentCount)
     menuchoice = input("Will bursting be used? (y/n): ")
-    if menuchoice == "y":
+    if menuchoice == "y" or menuchoice == "Y":
         burstingCount = int((input("    Please enter how many bursting channels are needed: ")))
 
     #input validation
@@ -134,7 +144,7 @@ def main(): # main function
     displayInputs(a)
     menuChoice = str(input("Is all data correct? (y/n): "))
 
-    if menuChoice == "n": # input validation to confirm the data is correct and no errors are thrown or wrong endpoint is chosen
+    if menuChoice == "n" or menuChoice == "N": # input validation to confirm the data is correct and no errors are thrown or wrong endpoint is chosen
 
         print('\nSelect number to change entry') 
 
@@ -168,7 +178,7 @@ def main(): # main function
             if menuChoice == 'n':
                 displayInputs(a)
                 break   
-    elif menuChoice == 'y':
+    elif menuChoice == 'y' or menuChoice == 'Y':
         print('\nStarted script')
 
     # Create Enterprise or Service Provider Class

@@ -3,6 +3,8 @@
 import requests
 import json
 
+#classes
+import fileManager
 class api:
     '''api class - api specific details as well as api calls that belong to no other class'''
     def __init__(self, username, password):

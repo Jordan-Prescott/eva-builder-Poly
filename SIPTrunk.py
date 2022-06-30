@@ -3,6 +3,8 @@
 import requests 
 import json
 
+#classes
+import fileManager
 class sipTrunk: # Builds group sip trunks 
     '''sipTrunk class - builds sip trunk under the group'''
     def __init__(self, type, password, maxActiveCalls = 1):
@@ -75,6 +77,8 @@ class sipTrunk: # Builds group sip trunks
 
         # API call
         response = requests.post(a.api_host+endpoint,data=json.dumps(payload),headers=headers)
+        if response != '<Response [200]>':
+            fileManager.fm.writeErrors(f'SIPTrunk.buildTunk.POST - {self.type}')
         return response.json()
 
     def __repr__(self) -> str:

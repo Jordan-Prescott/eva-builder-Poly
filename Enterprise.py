@@ -3,6 +3,8 @@
 import requests
 import json
 
+#classes
+import fileManager
 class ent: #Enterprise object
     '''enterprise class'''
     def __init__(self, ID, type):
@@ -34,6 +36,8 @@ class ent: #Enterprise object
         #     data["burstingMaxActiveCalls"] = currentbursting + bursting - check above TODO
 
         response = requests.put(a.api_host+endpoint,data=json.dumps(data),headers=headers) # PUT request so it uses payload to identify which group to adjust
+        if response != '<Response [200]>':
+            fileManager.fm.writeErrors(f'Enteprise.increaseCallCapacity.PUT - maxActiveCalls: {currentmaxcall + channels}')
         return response.json()
 
     # returns current call capacity used for above method

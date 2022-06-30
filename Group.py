@@ -3,6 +3,8 @@
 import requests
 import json
 
+#classes 
+import fileManager
 class grp: # builds group devices and adjusts trunk call capacity
     ''' group class - creates a group object and makes any group related api cals'''
     def __init__(self, enterpriseID, groupID):
@@ -39,6 +41,8 @@ class grp: # builds group devices and adjusts trunk call capacity
         }
 
         response = requests.post(a.api_host+endpoint, data=json.dumps(payload), headers=headers)
+        if response != '<Response [200]>':
+            fileManager.fm.writeErrors(f'Group.createDevice.POST - {name}')
         return response.json()
 
     def increaseCallCapacity(self, channels, a): 
@@ -56,7 +60,9 @@ class grp: # builds group devices and adjusts trunk call capacity
             "groupId": self.groupID
         }
         
-        response = requests.put(a.api_host+endpoint,data=json.dumps(data),headers=headers) 
+        response = requests.put(a.api_host+endpoint,data=json.dumps(data),headers=headers)
+        if response != '<Response [200]>':
+            fileManager.fm.writeErrors(f'Group.increaseCallCapacity.PUT - maxActiveCalls: {currentmaxcall + channels}')
         return response.json()
 
     def getCallCapacity(self, a): # gets current call capacity used for above method

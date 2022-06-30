@@ -1,9 +1,12 @@
 #Hunt Group Class
 #import
+from email.policy import Policy
 from tokenize import group
 import requests
 import json
 
+#classes
+import fileManager
 class hg: # builds internal and external hunt groups
     '''hunt group class - builds internal and external hunt gruops'''
     def __init__(self, type, extension):
@@ -74,6 +77,8 @@ class hg: # builds internal and external hunt groups
             ]
 
         response = requests.post(a.api_host+endpoint, headers=headers, data=json.dumps(data))
+        if response != '<Response [200]>':
+           fileManager.fm.writeErrors(f'HuntGroup.buildHG.POST - {self.type}')
         return response.json()
 
     def __repr__(self) -> str:

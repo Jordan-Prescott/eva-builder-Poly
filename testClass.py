@@ -32,7 +32,7 @@ try:
     a.getToken()
 except KeyError:
     print('ERROR: Username or Password incorrect.')
-    username = input("\nUsername: ") 
-    password = getpass.getpass()
+    a.username = input("\nUsername: ") 
+    a.password = getpass.getpass()
     a.getToken()
 
