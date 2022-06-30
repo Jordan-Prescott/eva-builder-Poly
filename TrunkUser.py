@@ -64,7 +64,7 @@ class trunkUser: # Builds EVA Trunk Users
                     "isPilotUser": False,
                     "contacts": []
                 },
-                #"alternateTrunkIdentity": self.number #5
+                "alternateTrunkIdentity": "" #5
             }
         }
 
