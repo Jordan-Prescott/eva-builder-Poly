@@ -6,6 +6,7 @@ import string
 from random import randint, choice
 import getpass
 from types import BuiltinMethodType
+import os
 
 #classes
 import API
@@ -16,23 +17,11 @@ import SIPTrunk
 import TrunkUser
 import HuntGroup
 
+# Get the current working directory
+cwd = os.getcwd()
+formatCWD = format(cwd)
 
+print(formatCWD)
 
-region = input("Choose system [EU/US]: ")
-
-# Magic creds
-username = input("\nUsername: ") 
-password = getpass.getpass()
-
-#create api object
-a = API.api(username, password)
-a.setAPIHost(region.upper())
-
-try:
-    a.getToken()
-except KeyError:
-    print('ERROR: Username or Password incorrect.')
-    a.username = input("\nUsername: ") 
-    a.password = getpass.getpass()
-    a.getToken()
-
+file = open(formatCWD + "\lib\errors.txt", "w")
+file.close()
