@@ -35,6 +35,7 @@ class api:
 
             response = requests.post(self.api_host+endpoint, data=payload)
             self.token = response.json()["token"]
+
             return self.token
         else:
             return self.token # returns the token if it is already set
@@ -49,7 +50,6 @@ class api:
 
         response = requests.get(self.api_host+endpoint, headers=headers, data=payload)
         isEnterprise = response.json()['isEnterprise']
-
         if isEnterprise:
             return "enterprise"
         elif not isEnterprise:

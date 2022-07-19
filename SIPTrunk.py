@@ -77,7 +77,7 @@ class sipTrunk: # Builds group sip trunks
 
         # API call
         response = requests.post(a.api_host+endpoint,data=json.dumps(payload),headers=headers)
-        if response != '<Response [200]>':
+        if str(response) != '<Response [200]>':
             fileManager.fm.writeErrors(f'SIPTrunk.buildTunk.POST - {self.type}')
         return response.json()
 

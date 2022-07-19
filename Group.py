@@ -41,7 +41,7 @@ class grp: # builds group devices and adjusts trunk call capacity
         }
 
         response = requests.post(a.api_host+endpoint, data=json.dumps(payload), headers=headers)
-        if response != '<Response [200]>':
+        if str(response) != '<Response [200]>':
             fileManager.fm.writeErrors(f'Group.createDevice.POST - {name}')
         return response.json()
 
@@ -61,7 +61,7 @@ class grp: # builds group devices and adjusts trunk call capacity
         }
         
         response = requests.put(a.api_host+endpoint,data=json.dumps(data),headers=headers)
-        if response != '<Response [200]>':
+        if str(response) != '<Response [200]>':
             fileManager.fm.writeErrors(f'Group.increaseCallCapacity.PUT - maxActiveCalls: {currentmaxcall + channels}')
         return response.json()
 

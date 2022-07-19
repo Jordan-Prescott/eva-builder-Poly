@@ -77,7 +77,7 @@ class hg: # builds internal and external hunt groups
             ]
 
         response = requests.post(a.api_host+endpoint, headers=headers, data=json.dumps(data))
-        if response != '<Response [200]>':
+        if str(response) != '<Response [200]>':
            fileManager.fm.writeErrors(f'HuntGroup.buildHG.POST - {self.type}')
         return response.json()
 

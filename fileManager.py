@@ -4,13 +4,12 @@
 class fm:
     '''fileManager - CRUDs files in this program'''
 
-
     def clearErrors():
-        file = open("eva-builder-Poly\lib\errors.txt", "w")
+        file = open(".\lib\errors.txt", "w")
         file.close()
 
     def writeErrors(e):
-        with open("eva-builder-Poly\lib\errors.txt", "a") as data:
+        with open(".\lib\errors.txt", "a") as data:
             data.write(e + '\n')
 
 

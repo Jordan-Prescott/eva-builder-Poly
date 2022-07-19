@@ -37,7 +37,7 @@ class trunkUser: # Builds EVA Trunk Users
         }
         
         response = requests.post(a.api_host+endpoint, headers=headers, data=json.dumps(payload))
-        if response != '<Response [200]>':
+        if str(response) != '<Response [200]>':
             fileManager.fm.writeErrors(f'TrunkUser.buildUser.POST - {self.userId}')
         return response.json()
     
@@ -81,7 +81,7 @@ class trunkUser: # Builds EVA Trunk Users
 
         # API call
         response = requests.put(a.api_host+endpoint, headers=headers, data=json.dumps(data))
-        if response != '<Response [200]>':
+        if str(response) != '<Response [200]>':
             fileManager.fm.writeErrors(f'TrunkUser.assigntoTrunk.PUT - {self.userId} - {trunkGroup}')
         return response.json()
     
@@ -102,7 +102,7 @@ class trunkUser: # Builds EVA Trunk Users
         }
 
         response = requests.put(a.api_host+endpoint, headers=headers, data=json.dumps(body))
-        if response != '<Response [200]>':
+        if str(response) != '<Response [200]>':
             fileManager.fm.writeErrors(f'TrunkUser.assignServicePack.PUT - {self.userId} - {self.type.upper()}')
         return response.json()
 
@@ -124,7 +124,7 @@ class trunkUser: # Builds EVA Trunk Users
 
         # API call
         response = requests.put(a.api_host+endpoint, headers=headers, data=json.dumps(body))
-        if response != '<Response [200]>':
+        if str(response) != '<Response [200]>':
             fileManager.fm.writeErrors(f'TrunkUser.assignBurstServicePack.PUT - {self.userId} - {b.upper()}')
         return response.json()
 
@@ -141,7 +141,7 @@ class trunkUser: # Builds EVA Trunk Users
         }
 
         response = requests.put(a.api_host+endpoint,headers=headers,data=json.dumps(data))
-        if response != '<Response [200]>':
+        if str(response) != '<Response [200]>':
             fileManager.fm.writeErrors(f'TrunkUser.setAuthenticationPass.PUT - {self.userId} - {self.password}')
         return response.json()
         
@@ -158,7 +158,7 @@ class trunkUser: # Builds EVA Trunk Users
             "extension": str(self.number)
         })
         response = requests.put(a.api_host+endpoint,headers=headers,data=data)
-        if response != '<Response [200]>':
+        if str(response) != '<Response [200]>':
             fileManager.fm.writeErrors(f'TrunkUser.setExtensionNumber.PUT - {self.userId} - {self.number}')
         return response.json()
 
@@ -181,7 +181,7 @@ class trunkUser: # Builds EVA Trunk Users
             data["name"] = "EVA_ExternalOverflow"
 
         response = requests.put(a.api_host+endpoint, headers=headers, data=json.dumps(data))
-        if response != '<Response [200]>':
+        if str(response) != '<Response [200]>':
            fileManager.fm.writeErrors(f'TrunkUser.setPilot.PUT - {self.userId}')
         return response.json()
 
