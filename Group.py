@@ -45,9 +45,10 @@ class grp: # builds group devices and adjusts trunk call capacity
             fileManager.fm.writeErrors(f'Group.createDevice.POST - {name}')
         return response.json()
 
-    def increaseCallCapacity(self, channels, a): 
+    def increaseCallCapacity(self, channels, a, bursting = 0): 
         currentCapacity = self.getCallCapacity(a)
         currentmaxcall = currentCapacity['maxActiveCalls']
+        currentbursting = currentCapacity['burstingMaxActiveCalls']
 
         endpoint = "/groups/trunk-groups/call-capacity"
         headers = {
@@ -59,7 +60,9 @@ class grp: # builds group devices and adjusts trunk call capacity
             "serviceProviderId": self.enterpriseID,
             "groupId": self.groupID
         }
-        
+        if bursting != 0:
+            data["burstingMaxActiveCalls"] = currentbursting + bursting
+
         response = requests.put(a.api_host+endpoint,data=json.dumps(data),headers=headers)
         if str(response) != '<Response [200]>':
             fileManager.fm.writeErrors(f'Group.increaseCallCapacity.PUT - maxActiveCalls: {currentmaxcall + channels}')

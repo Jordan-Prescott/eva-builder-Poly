@@ -17,11 +17,4 @@ import SIPTrunk
 import TrunkUser
 import HuntGroup
 
-# Get the current working directory
-cwd = os.getcwd()
-formatCWD = format(cwd)
-
-print(formatCWD)
-
-file = open(formatCWD + "\lib\errors.txt", "w")
-file.close()
+import requests

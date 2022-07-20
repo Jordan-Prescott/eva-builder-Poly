@@ -194,7 +194,7 @@ def main(): # main function
     # If enterprise, increase enterprise trunking call capacities
     if enterprise.type == "enterprise":
         print("Increasing Enterprise Trunking Call Capacity")
-        enterprise.increaseCallCapacity(evaAgentCount + burstingCount, a)
+        enterprise.increaseCallCapacity(evaAgentCount, a)
 
     # Create Group Devices
     g.createDevice("EVA_Poly", a) 
@@ -207,11 +207,11 @@ def main(): # main function
         print("Creating Internal Overlfow Device")
 
     # Increase group trunking call capacities
-    g.increaseCallCapacity(evaAgentCount + burstingCount, a)
+    g.increaseCallCapacity(evaAgentCount, a, burstingCount)
     print("Increasing group trunking call capacity")
 
     # Create trunk group classes
-    st = SIPTrunk.sipTrunk("EVA_Poly", generatePassword(), evaAgentCount + burstingCount)
+    st = SIPTrunk.sipTrunk("EVA_Poly", generatePassword(), burstingCount, evaAgentCount)
     print("Building sip trunks...")
     st.buildTrunk(g, a)
 
