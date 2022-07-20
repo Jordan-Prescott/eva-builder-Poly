@@ -49,23 +49,23 @@ class hg: # builds internal and external hunt groups
             data["serviceInstanceProfile"]["callingLineIdLastName"] = "External"
             data["serviceUserId"] = "EVA_External_HG@"+g.domain
             data["agents"] = [
-                {"userId":g.groupID.upper()+"141401_EVA_EL@"+g.domain}, #SATDT141401_EVA_EL@satdt.evtrunk.com
-                {"userId":g.groupID.upper()+"141412_EVA_EOF@"+g.domain} #SATDT141412_EVA_EOF@satdt.evtrunk.com
+                {"userId":g.groupID+"141401_EVA_EL@"+g.domain}, #SATDT141401_EVA_EL@satdt.evtrunk.com
+                {"userId":g.groupID+"141412_EVA_EOF@"+g.domain} #SATDT141412_EVA_EOF@satdt.evtrunk.com
             ]
         elif self.type == "internaloflow": # internal group
             data["serviceInstanceProfile"]["name"] = "EVA Internal"
             data["serviceInstanceProfile"]["callingLineIdLastName"] = "Internal"
             data["serviceUserId"] = "EVA_Internal_HG@"+g.domain
             data["agents"] = [
-                {"userId":g.groupID.upper()+"141402_EVA_IL@"+g.domain}, #SATDT141402_EVA_IL@satdt.evtrunk.com
-                {"userId":g.groupID.upper()+"141413_EVA_IOF@"+g.domain} #SATDT141413_EVA_IOF@satdt.evtrunk.com
+                {"userId":g.groupID+"141402_EVA_IL@"+g.domain}, #SATDT141402_EVA_IL@satdt.evtrunk.com
+                {"userId":g.groupID+"141413_EVA_IOF@"+g.domain} #SATDT141413_EVA_IOF@satdt.evtrunk.com
             ]
         elif self.type == "internaloflowSB": # internal sandbox group
             data["serviceInstanceProfile"]["name"] = "EVA Internal Sandbox"
             data["serviceInstanceProfile"]["callingLineIdLastName"] = "Internal Sandbox"
             data["serviceUserId"] = "EVA_Internal_HG_SB@"+g.domain
             data["agents"] = [
-                {"userId":g.groupID.upper()+"141404_EVA_IS@"+g.domain}
+                {"userId":g.groupID+"141404_EVA_IS@"+g.domain}
 
             ]
         elif self.type == "externaloflowSB": # internal group
@@ -73,7 +73,7 @@ class hg: # builds internal and external hunt groups
             data["serviceInstanceProfile"]["callingLineIdLastName"] = "External Sandbox"
             data["serviceUserId"] = "EVA_External_HG_SB@"+g.domain
             data["agents"] = [
-                {"userId":g.groupID.upper()+"141403_EVA_ES@"+g.domain}
+                {"userId":g.groupID+"141403_EVA_ES@"+g.domain}
             ]
 
         response = requests.post(a.api_host+endpoint, headers=headers, data=json.dumps(data))
