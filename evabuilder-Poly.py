@@ -194,7 +194,7 @@ def main(): # main function
     # If enterprise, increase enterprise trunking call capacities
     if enterprise.type == "enterprise":
         print("Increasing Enterprise Trunking Call Capacity")
-        enterprise.increaseCallCapacity(evaAgentCount, a)
+        enterprise.increaseCallCapacity(evaAgentCount, a, burstingCount)
 
     # Create Group Devices
     g.createDevice("EVA_Poly", a) 
