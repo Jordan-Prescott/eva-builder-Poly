@@ -50,6 +50,8 @@ class grp: # builds group devices and adjusts trunk call capacity
         currentmaxcall = currentCapacity['maxActiveCalls']
         currentbursting = currentCapacity['burstingMaxActiveCalls']
 
+        print(f'Increasing from: Max Active Calls - {currentmaxcall} Max Bursting Calls - {currentbursting} to: Max Active Calls - {currentmaxcall + channels} Max Bursting Calls - {currentbursting + bursting}')
+
         endpoint = "/groups/trunk-groups/call-capacity"
         headers = {
             "Authorization": "Bearer "+a.token,

@@ -19,6 +19,8 @@ class ent: #Enterprise object
         currentmaxcall = currentCapacity['maxActiveCalls']
         currentbursting = currentCapacity['burstingMaxActiveCalls']
 
+        print(f'Increasing from: Max Active Calls - {currentmaxcall} Max Bursting Calls - {currentbursting} to: Max Active Calls - {currentmaxcall + channels} Max Bursting Calls - {currentbursting + bursting}')
+
         if currentbursting == -1: # if no bursting capacity set to 0 
             currentbursting = 0
         
