@@ -38,7 +38,8 @@ class trunkUser: # Builds EVA Trunk Users
         
         response = requests.post(a.api_host+endpoint, headers=headers, data=json.dumps(payload))
         if str(response) != '<Response [200]>':
-            fileManager.fm.writeErrors(f'TrunkUser.buildUser.POST - {self.userId}')
+            error = response.json()['error']
+            fileManager.fm.writeErrors(f'TrunkUser.buildUser.POST || {self.userId} || {error}')
         return response.json()
     
     def assigntoTrunk(self, a, g):
@@ -80,7 +81,8 @@ class trunkUser: # Builds EVA Trunk Users
         # API call
         response = requests.put(a.api_host+endpoint, headers=headers, data=json.dumps(data))
         if str(response) != '<Response [200]>':
-            fileManager.fm.writeErrors(f'TrunkUser.assigntoTrunk.PUT - {self.userId} - {trunkGroup}')
+            error = response.json()['error']
+            fileManager.fm.writeErrors(f'TrunkUser.assigntoTrunk.PUT || {self.userId} || {trunkGroup} || ')
         return response.json()
     
     def assignServicePack(self, a):
@@ -101,7 +103,8 @@ class trunkUser: # Builds EVA Trunk Users
 
         response = requests.put(a.api_host+endpoint, headers=headers, data=json.dumps(body))
         if str(response) != '<Response [200]>':
-            fileManager.fm.writeErrors(f'TrunkUser.assignServicePack.PUT - {self.userId} - {self.type.upper()}')
+            error = response.json()['error']
+            fileManager.fm.writeErrors(f'TrunkUser.assignServicePack.PUT || {self.userId} || {self.type.upper()} || {error}')
         return response.json()
 
     def assignBurstServicePack(self, a, b):
@@ -123,7 +126,8 @@ class trunkUser: # Builds EVA Trunk Users
         # API call
         response = requests.put(a.api_host+endpoint, headers=headers, data=json.dumps(body))
         if str(response) != '<Response [200]>':
-            fileManager.fm.writeErrors(f'TrunkUser.assignBurstServicePack.PUT - {self.userId} - {b.upper()}')
+            error = response.json()['error']
+            fileManager.fm.writeErrors(f'TrunkUser.assignBurstServicePack.PUT || {self.userId} || {b.upper()} || {error}')
         return response.json()
 
     def setAuthenticationPass(self, a, g):
@@ -140,7 +144,8 @@ class trunkUser: # Builds EVA Trunk Users
 
         response = requests.put(a.api_host+endpoint,headers=headers,data=json.dumps(data))
         if str(response) != '<Response [200]>':
-            fileManager.fm.writeErrors(f'TrunkUser.setAuthenticationPass.PUT - {self.userId} - {self.password}')
+            error = response.json()['error']
+            fileManager.fm.writeErrors(f'TrunkUser.setAuthenticationPass.PUT || {self.userId} || {self.password} || {error}')
         return response.json()
         
     def setExtensionNumber(self, a, g):
@@ -157,7 +162,8 @@ class trunkUser: # Builds EVA Trunk Users
         })
         response = requests.put(a.api_host+endpoint,headers=headers,data=data)
         if str(response) != '<Response [200]>':
-            fileManager.fm.writeErrors(f'TrunkUser.setExtensionNumber.PUT - {self.userId} - {self.number}')
+            error = response.json()['error']
+            fileManager.fm.writeErrors(f'TrunkUser.setExtensionNumber.PUT || {self.userId} || {self.number} || {error}')
         return response.json()
 
     def setPilot(self, a, g):
@@ -180,7 +186,8 @@ class trunkUser: # Builds EVA Trunk Users
 
         response = requests.put(a.api_host+endpoint, headers=headers, data=json.dumps(data))
         if str(response) != '<Response [200]>':
-           fileManager.fm.writeErrors(f'TrunkUser.setPilot.PUT - {self.userId}')
+            error = response.json()['error']
+            fileManager.fm.writeErrors(f'TrunkUser.setPilot.PUT || {self.userId} || {error}')
         return response.json()
 
     def __repr__(self) -> str:

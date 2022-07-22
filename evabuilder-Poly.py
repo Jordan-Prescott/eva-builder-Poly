@@ -33,42 +33,48 @@ users = [
         "extension": "141401",
         "trunk": "EVA_Poly",
         "pilot": True,
-        "license": "EVA-AGENT-" + str(evaAgentCount)
+        "license": "EVA-AGENT-" + str(evaAgentCount),
+        "build": True
     },
     {
         "id": "141402_EVA_IL",
         "extension": "141402",
         "trunk": "EVA_Poly",
         "pilot": False,
-        "license": "SIP-DID"
+        "license": "SIP-DID",
+        "build": False
     },
     {
         "id": "141403_EVA_ES",
         "extension": "141403",
         "trunk": "EVA_Poly",
         "pilot": False,
-        "license": "SIP-DID"
+        "license": "SIP-DID",
+        "build": True
     },
     {
         "id": "141404_EVA_IS",
         "extension": "141404",
         "trunk": "EVA_Poly",
         "pilot": False,
-        "license": "SIP-DID"
+        "license": "SIP-DID",
+        "build": False
     },
     {
         "id": "141412_EVA_EOF",
         "extension": "141412",
         "trunk": "EVA_ExternalOverflow",
         "pilot": True,
-        "license": "SIP-DID"
+        "license": "SIP-DID",
+        "build": True
     },
     {
         "id": "141413_EVA_IOF",
         "extension": "141413",
         "trunk": "EVA_InternalOverflow",
         "pilot": True,
-        "license": "SIP-DID"
+        "license": "SIP-DID",
+        "build": False
     }
 ]
 
@@ -128,10 +134,14 @@ def main(): # main function
     menuchoice = str(input("\nWill EVA be used for internal calls? (y/n): "))
     if menuchoice == "y" or menuchoice == "Y":
         internalcalls = True
+        users[1]['build'] = True
+        users[3]['build'] = True
+        users[5]['build'] = True
+
     menuchoice = str(input("Will EVA be used for external calls? (y/n): "))
     if menuchoice == "y" or menuchoice == "Y":
         externalcalls = True
-
+        
     # takes in number of channels and this will affect license appiled later
     evaAgentCount = int((input("\nAgent Count (Including Pilots): ")))
     users[0]['license'] = "EVA-AGENT-" + str(evaAgentCount)
@@ -162,6 +172,9 @@ def main(): # main function
                 menuchoice = str(input("Will EVA be used for internal calls? (y/n): "))
                 if menuchoice == "y":
                     internalcalls = True
+                    users[1]['build'] = True
+                    users[3]['build'] = True
+                    users[5]['build'] = True
             elif numberChoice == "5":
                 menuchoice = str(input("Will EVA be used for external calls? (y/n): "))
                 if menuchoice == "y":
@@ -207,8 +220,8 @@ def main(): # main function
         print("Creating Internal Overlfow Device")
 
     # Increase group trunking call capacities
-    g.increaseCallCapacity(evaAgentCount, a, burstingCount)
     print("Increasing group trunking call capacity")
+    g.increaseCallCapacity(evaAgentCount, a, burstingCount)
 
     # Create trunk group classes
     st = SIPTrunk.sipTrunk("EVA_Poly", generatePassword(), burstingCount, evaAgentCount)
@@ -228,8 +241,9 @@ def main(): # main function
     print("Building users")
     trunkUsers = []
     for x in users:
-        user_id = groupID + x['id'] + "@" + g.domain
-        trunkUsers.append(TrunkUser.trunkUser(x['id'], x['extension'], x['license'], x['pilot'], user_id, x['trunk'], password = generatePassword()))
+        if x['build'] == True:
+            user_id = groupID + x['id'] + "@" + g.domain
+            trunkUsers.append(TrunkUser.trunkUser(x['id'], x['extension'], x['license'], x['pilot'], user_id, x['trunk'], password = generatePassword()))
 
     # builds user objects 
     for u in trunkUsers:
@@ -267,7 +281,8 @@ def main(): # main function
     print("\n## Credentials ##")
     print("Primary Trunk Register Username: " + g.groupID + users[0]['id'] + "@" + g.domain)
     print("Primary Trunk Authentication Username: "+str(st.username))
-    print("Primary Trunk Password: "+str(st.password))
+    print("Primary Trunk Password: "+str(st.password) +"\n")
+    print("Errors can be found in: lib/errors.txt")
 
 if __name__ == "__main__":
     main()

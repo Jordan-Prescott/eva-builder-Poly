@@ -78,7 +78,8 @@ class hg: # builds internal and external hunt groups
 
         response = requests.post(a.api_host+endpoint, headers=headers, data=json.dumps(data))
         if str(response) != '<Response [200]>':
-           fileManager.fm.writeErrors(f'HuntGroup.buildHG.POST - {self.type}')
+            error = response.json()['error']
+            fileManager.fm.writeErrors(f'HuntGroup.buildHG.POST || {self.type} || {error}')
         return response.json()
 
     def __repr__(self) -> str:

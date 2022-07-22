@@ -42,7 +42,8 @@ class grp: # builds group devices and adjusts trunk call capacity
 
         response = requests.post(a.api_host+endpoint, data=json.dumps(payload), headers=headers)
         if str(response) != '<Response [200]>':
-            fileManager.fm.writeErrors(f'Group.createDevice.POST - {name}')
+            error = response.json()['error']
+            fileManager.fm.writeErrors(f'Group.createDevice.POST || {name} || {error}')
         return response.json()
 
     def increaseCallCapacity(self, channels, a, bursting = 0): 
@@ -67,7 +68,8 @@ class grp: # builds group devices and adjusts trunk call capacity
 
         response = requests.put(a.api_host+endpoint,data=json.dumps(data),headers=headers)
         if str(response) != '<Response [200]>':
-            fileManager.fm.writeErrors(f'Group.increaseCallCapacity.PUT - maxActiveCalls: {currentmaxcall + channels}')
+            error = response.json()['error']
+            fileManager.fm.writeErrors(f'Group.increaseCallCapacity.PUT || maxActiveCalls: {currentmaxcall + channels} || {error}')
         return response.json()
 
     def getCallCapacity(self, a): # gets current call capacity used for above method
