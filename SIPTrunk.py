@@ -7,12 +7,13 @@ import json
 import fileManager
 class sipTrunk: # Builds group sip trunks 
     '''sipTrunk class - builds sip trunk under the group'''
-    def __init__(self, type, password, maxActiveCalls = 1):
+    def __init__(self, type, password, burstingCount = 1, maxActiveCalls = 1):
         ''' init variables'''
 
         self.type = type
         self.password = password
         self.maxActiveCalls = maxActiveCalls
+        self.burstingCount = burstingCount
     
     def buildTrunk(self, g, a): # depending on type sets class attributes to correct values
         if self.type == "EVA_Poly":
@@ -39,7 +40,7 @@ class sipTrunk: # Builds group sip trunks
             "groupId": g.groupID,
             "maxActiveCalls": self.maxActiveCalls,
             "enableBursting": True,
-            "burstingMaxActiveCalls": 1,
+            "burstingMaxActiveCalls": self.burstingCount,
             "requireAuthentication": True,
             "sipAuthenticationUserName": trunkName,
             "sipAuthenticationPassword": self.password,
