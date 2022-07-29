@@ -17,7 +17,12 @@ class api:
         self.token = None
         self.region = None
 
-    def setAPIHost(self, region): # sets the API host based on the region
+    def setAPIHost(self, region):
+        '''
+        sets the host url for all api calls
+
+        :param region: region where the hotel is located either US or UK
+        '''
         if region == "EU": 
             self.api_host = "https://fourteenip-eu.prod.odinapi.net/api/v2"
             self.region = region
@@ -25,7 +30,12 @@ class api:
             self.api_host = "https://fourteenip.prod.odinapi.net/api/v2"
             self.region = region
 
-    def getToken(self): # gets the token from the API
+    def getToken(self):
+        '''
+        gets an api token used for future api calls
+        
+        :return self.token: Odin API token for API requests
+        '''
         if self.token == None: # checks if the token is already set
             endpoint = "/auth/token"
             payload = {
@@ -40,7 +50,13 @@ class api:
         else:
             return self.token # returns the token if it is already set
 
-    def getEntType(self, serviceProviderID): # gets the enterprise type - important for how trunks are built
+    def getEntType(self, serviceProviderID): # gets the enterprise type
+        '''
+        gets the enterpise type either enterprise or serviceprovider
+
+        :param serviceProviderID: Enterprise or Serviceprovider ID inputted from user
+        :return string: type 
+        '''
         endpoint = "/service-providers?serviceProviderId="+serviceProviderID
         headers = {
             "Authorization":"Bearer "+self.token

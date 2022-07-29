@@ -7,6 +7,7 @@ import json
 import fileManager
 class grp: # builds group devices and adjusts trunk call capacity
     ''' group class - creates a group object and makes any group related api cals'''
+
     def __init__(self, enterpriseID, groupID):
         '''init variables'''
         super().__init__()
@@ -15,7 +16,12 @@ class grp: # builds group devices and adjusts trunk call capacity
         self.groupID = groupID
         self.domain = None
 
-    def getDefaultDomain(self, a): # gets default domain for group
+    def getDefaultDomain(self, a):
+        '''
+        gets default domain of the group and sets self.domain to this value
+
+        :param a: API object used for api calls
+        '''
         endpoint = "/groups?serviceProviderId=" + self.enterpriseID + "&groupId="+ self.groupID
         headers = {
             "Authorization":"Bearer "+a.token
@@ -26,7 +32,15 @@ class grp: # builds group devices and adjusts trunk call capacity
         response = requests.get(a.api_host+endpoint, headers=headers, data=payload)
         self.domain = response.json()['defaultDomain']
 
-    def createDevice(self, name, a): # creates inference-sbc device
+    def createDevice(self, name, a): 
+        '''
+        creates device profile used for trunks.
+        The device name is 'Inference-sbc' but this is used for PolyAI also.
+
+        :param name: name of the device being built depending on trunk
+        :param a: API object used for api calls
+        :return: response from POST request
+        '''
         endpoint = "/groups/devices"
         headers = {
             "Authorization": "Bearer "+a.token,
@@ -47,6 +61,14 @@ class grp: # builds group devices and adjusts trunk call capacity
         return response.json()
 
     def increaseCallCapacity(self, channels, a, bursting = 0): 
+        '''
+        increases group call capacity by the number of agents and bursting channels purchased.
+
+        :param channels: number of agents inputted by user
+        :param a: API object used for api calls
+        :param bursting=0: bursting set by user, 0 by default 
+        :return: response from PUT request 
+        '''
         currentCapacity = self.getCallCapacity(a)
         currentmaxcall = currentCapacity['maxActiveCalls']
         currentbursting = currentCapacity['burstingMaxActiveCalls']
@@ -72,7 +94,13 @@ class grp: # builds group devices and adjusts trunk call capacity
             fileManager.fm.writeErrors(f'Group.increaseCallCapacity.PUT || maxActiveCalls: {currentmaxcall + channels} || {error}')
         return response.json()
 
-    def getCallCapacity(self, a): # gets current call capacity used for above method
+    def getCallCapacity(self, a): 
+        '''
+        used for icnreaseCallCapcity() to get the existing call capacity of the group
+
+        :param a: API object used for api calls
+        :return: response from GET request
+        '''
         endpoint = "/groups/trunk-groups/call-capacity?groupId="+self.groupID+"&serviceProviderId="+self.enterpriseID 
         headers = {
             "Authorization": "Bearer "+a.token

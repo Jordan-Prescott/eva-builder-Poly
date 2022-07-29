@@ -5,7 +5,7 @@ import json
 
 #classes
 import fileManager
-class sipTrunk: # Builds group sip trunks 
+class sipTrunk:
     '''sipTrunk class - builds sip trunk under the group'''
     def __init__(self, type, password, burstingCount = 1, maxActiveCalls = 1):
         ''' init variables'''
@@ -15,7 +15,17 @@ class sipTrunk: # Builds group sip trunks
         self.maxActiveCalls = maxActiveCalls
         self.burstingCount = burstingCount
     
-    def buildTrunk(self, g, a): # depending on type sets class attributes to correct values
+    def buildTrunk(self, g, a):
+        '''
+        builds below SIP Trunks:
+            EVA_Poly
+            EVA_ExternalOverflow
+            EVA_InternalOverflow
+
+        :param a: API object used for api calls
+        :param g: Grp object used for details in api calls
+        :return: reponse from POST API request
+        '''
         if self.type == "EVA_Poly":
             trunkName = "EVA_Poly"
             self.username = trunkName+"@"+g.domain

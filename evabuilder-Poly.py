@@ -80,12 +80,22 @@ users = [
 
 
 #methods
-def generatePassword(): # generates a random password for the user
+def generatePassword():
+    """
+    Generates a random string of characters used for passwords 
+
+    :return string: Random string of characters 
+    """
     characters = string.digits + string.ascii_letters + string.digits
     password = "".join(choice(characters) for x in range(randint(8,16)))
     return password
 
-def displayInputs(a): # displays the inputs for the user
+def displayInputs(a): 
+    """Displays user inputs to the terminal
+
+    :param a: API objetc used to get the Region inputted by user
+    :return: users inputs to the terminal with a number associated
+    """
     print("[1] Region: " + a.region.upper()) 
     print("[2] Service Provider ID: " + serviceProviderID)
     print("[3] Group ID: " + groupID)
@@ -94,7 +104,14 @@ def displayInputs(a): # displays the inputs for the user
     print("[6] Agent Count: " + str(evaAgentCount))
     print("[7] Bursting Count: " + str(burstingCount) + "\n")
 
-def main(): # main function
+def main():
+    """
+    EVA Builder Script is a script to automate the Broadworks configuration for FourteenIP AI solution EVA.
+    Inputs are taken with details on the group where the configuration needs to be built, the script performs a series of tasks building EVA on Broadworks.
+
+    :company: FourteenIP
+    :author: Jordan Prescott
+    """
 
     # sets all below to global variables so they can be used in other function
     global username

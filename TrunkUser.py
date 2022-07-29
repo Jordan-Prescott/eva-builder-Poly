@@ -5,8 +5,8 @@ import json
 
 #classes
 import fileManager
-class trunkUser: # Builds EVA Trunk Users
-    '''trunkUser class - user object built againts a trunk'''
+class trunkUser: 
+    '''trunkUser class - builds user and assigned to trunk, user details are stored in users {dict} in evabuilder-Poly'''
     def __init__(self, id, number, agentType, isPilot, userId, trunk, password):
         '''init variables'''
         super().__init__()
@@ -19,7 +19,20 @@ class trunkUser: # Builds EVA Trunk Users
         self.userId = userId
         self.password = password
 
-    def buildUser(self, a, g): # builds user 
+    def buildUser(self, a, g):
+        '''
+        builds below users:
+            141401_EVA_EL
+            141402_EVA_IL
+            141403_EVA_ES
+            141404_EVA_IS
+            141412_EVA_EOF
+            141413_EVA_IOF
+
+        :param a: API object used for api calls
+        :param g: Grp object used for details in api calls
+        :return: response from POST request
+        '''
         endpoint = "/users"
         headers = {
             "Authorization": "Bearer "+a.token,
@@ -43,6 +56,13 @@ class trunkUser: # Builds EVA Trunk Users
         return response.json()
     
     def assigntoTrunk(self, a, g):
+        '''
+        assigns the user to the correct trunk
+
+        :param a: API object used for api calls
+        :param g: Grp object used for details in api calls
+        :return: response from PUT request
+        '''
         if self.trunk == "EVA_Poly":
             trunkGroup = "EVA_Poly"
         elif self.trunk == "EVA_ExternalOverflow":
@@ -86,6 +106,12 @@ class trunkUser: # Builds EVA Trunk Users
         return response.json()
     
     def assignServicePack(self, a):
+        '''
+        assigns EVA-AGENT-X service pack to each user
+
+        :param a: API object used for api calls
+        :return: response from PUT request
+        '''
         endpoint = "/users/services"
         headers = {
             "Authorization": "Bearer "+a.token,
@@ -108,6 +134,13 @@ class trunkUser: # Builds EVA Trunk Users
         return response.json()
 
     def assignBurstServicePack(self, a, b):
+        '''
+        assigns EVA-AGENTB-X service pack to each user
+
+        :param a: API object used for api calls
+        :param b: bursting servicepack 
+        :return: response from PUT request
+        '''
         endpoint = "/users/services"
         headers = {
             "Authorization": "Bearer "+a.token,
@@ -131,6 +164,13 @@ class trunkUser: # Builds EVA Trunk Users
         return response.json()
 
     def setAuthenticationPass(self, a, g):
+        '''
+        sets authentication password of users
+
+        :param a: API object used for api calls
+        :param g: Grp object used for details in api calls
+        :return: response from PUT request
+        '''
         endpoint = "/users/authentication"
         headers = {
             "Authorization": "Bearer "+a.token,
@@ -149,6 +189,13 @@ class trunkUser: # Builds EVA Trunk Users
         return response.json()
         
     def setExtensionNumber(self, a, g):
+        '''
+        sets the users extension number
+
+        :param a: API object used for api calls
+        :param g: Grp object used for details in api calls
+        :return: response from POST request        
+        '''
         endpoint = "/users"
         headers = {
             "Authorization": "Bearer "+a.token,
@@ -167,6 +214,16 @@ class trunkUser: # Builds EVA Trunk Users
         return response.json()
 
     def setPilot(self, a, g):
+        '''
+        sets a pilot user to the trunk group, pilots below:
+            141401_EVA_EL
+            141412_EVA_EOF
+            141413_EVA_IOF
+
+        :param a: API object used for api calls
+        :param g: Grp object used for details in api calls
+        :return: response from PUT request
+        '''
         endpoint = "/groups/trunk-groups"
         headers = {
             "Authorization": "Bearer "+a.token,

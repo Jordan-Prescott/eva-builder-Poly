@@ -7,7 +7,7 @@ import json
 
 #classes
 import fileManager
-class hg: # builds internal and external hunt groups
+class hg: 
     '''hunt group class - builds internal and external hunt gruops'''
     def __init__(self, type, extension):
         '''init variables'''
@@ -16,7 +16,18 @@ class hg: # builds internal and external hunt groups
         self.type = type
         self.extension = extension
     
-    def buildHG(self, a, g): # builds the two huntgroups for the group
+    def buildHG(self, a, g):
+        '''
+        builds below huntgroups:
+            EVA External
+            EVA Internal
+            EVA External Sandbox
+            EVA Internal Sandbox
+
+        :param a: API object used for api calls
+        :param g: Grp object used for details in api calls
+        :return: response from POST request
+        '''
         endpoint = "/groups/hunt-groups"
         headers = {
             "Authorization": "Bearer "+a.token,

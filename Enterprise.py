@@ -7,7 +7,7 @@ import json
 #classes
 import fileManager
 class ent: #Enterprise object
-    '''enterprise class'''
+    '''enterprise class - any enterprise or serviceprovider functions'''
     def __init__(self, ID, type):
         '''init variables '''
         super().__init__()
@@ -16,6 +16,14 @@ class ent: #Enterprise object
         self.type = type
 
     def increaseCallCapacity(self, channels, a, bursting=0): 
+        '''
+        increases enterprise call capacity by the number of agents and bursting channels purchased.
+
+        :param channels: number of agents inputted by user
+        :param a: API object used for api calls
+        :param bursting=0: bursting set by user, 0 by default 
+        :return: response from PUT request 
+        '''
         currentCapacity = self.getCallCapacity(a) 
         currentmaxcall = currentCapacity['maxActiveCalls']
         currentbursting = currentCapacity['burstingMaxActiveCalls']
@@ -44,8 +52,13 @@ class ent: #Enterprise object
             fileManager.fm.writeErrors(f'Enteprise.increaseCallCapacity.PUT || maxActiveCalls: {currentmaxcall + channels} || {error}')
         return response.json()
 
-    # returns current call capacity used for above method
     def getCallCapacity(self, a):
+        '''
+        used for icnreaseCallCapcity() to get the existing call capacity of ent
+
+        :param a: API object used for api calls
+        :return: response from GET request
+        '''
         endpoint = "/service-providers/trunk-groups/call-capacity?serviceProviderId="+self.ID
         headers = {
             "Authorization": "Bearer "+a.token
