@@ -8,7 +8,13 @@ import fileManager
 class sipTrunk:
     '''sipTrunk class - builds sip trunk under the group'''
     def __init__(self, type, password, burstingCount = 1, maxActiveCalls = 1):
-        ''' init variables'''
+        ''' SIP trunk is a shared link to make and receive calls and its hosted inside a group
+        
+        Hierachy: Ent/SP > Group > SIP Trunk > Users
+        
+        variables:
+        type(type of 3 trunks), password(authentication password), burtsingCount(number of bursting channels), maxActiveCalls(number of normal channels)
+        '''
 
         self.type = type
         self.password = password
@@ -17,10 +23,7 @@ class sipTrunk:
     
     def buildTrunk(self, g, a):
         '''
-        builds below SIP Trunks:
-            EVA_Poly
-            EVA_ExternalOverflow
-            EVA_InternalOverflow
+        builds EVA_Poly, EVA_ExternalOverflow, EVA_InternalOverflow
 
         :param a: API object used for api calls
         :param g: Grp object used for details in api calls

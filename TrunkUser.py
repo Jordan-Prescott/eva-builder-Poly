@@ -8,7 +8,13 @@ import fileManager
 class trunkUser: 
     '''trunkUser class - builds user and assigned to trunk, user details are stored in users {dict} in evabuilder-Poly'''
     def __init__(self, id, number, agentType, isPilot, userId, trunk, password):
-        '''init variables'''
+        ''' 
+        
+        Hierachy: Ent/SP > Group > User
+        
+        variables:
+        id(unique id, start of userId), number(extension number), agentType(license assigned), isPilot(Boolean on if user is pilot), userId(unique userid of user), trunk(trunk user belongs to), password(authenticatoion password)
+        '''
         super().__init__()
         
         self.id = id
@@ -21,13 +27,7 @@ class trunkUser:
 
     def buildUser(self, a, g):
         '''
-        builds below users:
-            141401_EVA_EL
-            141402_EVA_IL
-            141403_EVA_ES
-            141404_EVA_IS
-            141412_EVA_EOF
-            141413_EVA_IOF
+        builds 141401_EVA_EL, 141402_EVA_IL, 141403_EVA_ES, 141404_EVA_IS, 141412_EVA_EOF, 141413_EVA_IOF
 
         :param a: API object used for api calls
         :param g: Grp object used for details in api calls

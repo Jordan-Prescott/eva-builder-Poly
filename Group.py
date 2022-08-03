@@ -5,11 +5,17 @@ import json
 
 #classes 
 import fileManager
-class grp: # builds group devices and adjusts trunk call capacity
+class grp: 
     ''' group class - creates a group object and makes any group related api cals'''
 
     def __init__(self, enterpriseID, groupID):
-        '''init variables'''
+        '''A group is an individual hotel with users (Guest/ Staff) inside.
+        
+        Hierachy: Ent/SP > Group > User 
+
+        variables:
+        enterpriseID(Ent/SP ID), groupID(Group ID)
+        '''
         super().__init__()
 
         self.enterpriseID = enterpriseID

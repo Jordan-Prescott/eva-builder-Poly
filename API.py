@@ -8,7 +8,11 @@ import fileManager
 class api:
     '''api class - api specific details as well as api calls that belong to no other class'''
     def __init__(self, username, password):
-        '''init variables'''
+        '''API class, sets and stores base URL, Token, Username, and Password for API calls.
+    
+        variables:
+        username(Magic Username), password(Magic Password), api_host(Base URL), token(Auth Token), region(Region of Hotel)
+        '''
         super().__init__()
 
         self.username = username

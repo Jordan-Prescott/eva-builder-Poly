@@ -10,7 +10,13 @@ import fileManager
 class hg: 
     '''hunt group class - builds internal and external hunt gruops'''
     def __init__(self, type, extension):
-        '''init variables'''
+        '''A huntgroup is a collection of users with a virtual extension that can be called to reach all users in the group
+        
+        Hierachy: Ent/SP > Group > HuntGroup > User
+
+        variables:
+        type(External or Internal), extension(Extension number)
+        '''
         super().__init__()
 
         self.type = type
@@ -18,11 +24,7 @@ class hg:
     
     def buildHG(self, a, g):
         '''
-        builds below huntgroups:
-            EVA External
-            EVA Internal
-            EVA External Sandbox
-            EVA Internal Sandbox
+        builds EVA External, EVA Internal, EVA External Sandbox, EVA Internal Sandbox
 
         :param a: API object used for api calls
         :param g: Grp object used for details in api calls

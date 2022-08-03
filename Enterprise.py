@@ -6,10 +6,16 @@ import json
 
 #classes
 import fileManager
-class ent: #Enterprise object
+class ent: 
     '''enterprise class - any enterprise or serviceprovider functions'''
     def __init__(self, ID, type):
-        '''init variables '''
+        '''Ent/SP is the brand or chain like Marriott with groups (individual hotels) and users (Staff/ Guests in the hotel).
+
+        Hierachy: Ent/SP > Group > User 
+
+        variables:
+        ID(Ent/SP ID), type(Ent or SP Type)
+        '''
         super().__init__()
 
         self.ID = ID
