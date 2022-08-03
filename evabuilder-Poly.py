@@ -27,6 +27,8 @@ groupDomain = ""
 token = ""
 internalcalls = False
 externalcalls = False
+externalCFA = 0
+internalCFA = 0
 users = [
     {
         "id": "141401_EVA_EL",
@@ -100,9 +102,11 @@ def displayInputs(a):
     print("[2] Service Provider ID: " + serviceProviderID)
     print("[3] Group ID: " + groupID)
     print("[4] Inernal Calls: " + str(internalcalls))
-    print("[5] External Calls: " + str(externalcalls))
-    print("[6] Agent Count: " + str(evaAgentCount))
-    print("[7] Bursting Count: " + str(burstingCount) + "\n")
+    print("[5] Internal Calls Overflow: " + str(internalCFA))
+    print("[6] External Calls: " + str(externalcalls))
+    print("[7] Enternal Calls Overflow: " + str(externalCFA))
+    print("[8] Agent Count: " + str(evaAgentCount))
+    print("[9] Bursting Count: " + str(burstingCount) + "\n")
 
 def main():
     """
@@ -122,6 +126,8 @@ def main():
     global internalcalls
     global externalcalls
     global burstingCount
+    global externalCFA
+    global internalCFA
     
     fileManager.fm.clearErrors() #clears errors in ./lib/errors.txt from previous run
 
@@ -150,6 +156,7 @@ def main():
 
     menuchoice = str(input("\nWill EVA be used for internal calls? (y/n): "))
     if menuchoice == "y" or menuchoice == "Y":
+        internalCFA = input("    Extension number of internal overflow: ")
         internalcalls = True
         users[1]['build'] = True
         users[3]['build'] = True
@@ -157,6 +164,7 @@ def main():
 
     menuchoice = str(input("Will EVA be used for external calls? (y/n): "))
     if menuchoice == "y" or menuchoice == "Y":
+        externalCFA = input("    Extension number of external overflow: ")
         externalcalls = True
         
     # takes in number of channels and this will affect license appiled later
@@ -193,12 +201,16 @@ def main():
                     users[3]['build'] = True
                     users[5]['build'] = True
             elif numberChoice == "5":
+                internalCFA = input("Extension number of internal overflow: ")
+            elif numberChoice == "6":
                 menuchoice = str(input("Will EVA be used for external calls? (y/n): "))
                 if menuchoice == "y":
                     externalcalls = True
-            elif numberChoice == "6":
-                evaAgentCount = int((input("Agent Count (Including Pilots): ")))
             elif numberChoice == "7":
+                externalCFA = input("Extension number of external overflow: ")
+            elif numberChoice == "8":
+                evaAgentCount = int((input("Agent Count (Including Pilots): ")))
+            elif numberChoice == "9":
                 burstingCount = int(input("Please enter how many bursting channels are needed: "))
             else:
                 print("\nInvalid Input") 
@@ -247,10 +259,10 @@ def main():
 
     # build internal / external overflow TGs 
     if externalcalls:
-        externaloflow = SIPTrunk.sipTrunk("EVA_ExternalOverflow", generatePassword())
+        externaloflow = SIPTrunk.sipTrunk("EVA_ExternalOverflow", generatePassword(), externalCFA)
         externaloflow.buildTrunk(g, a)
     if internalcalls:
-        internaloflow = SIPTrunk.sipTrunk("EVA_InternalOverflow", generatePassword())
+        internaloflow = SIPTrunk.sipTrunk("EVA_InternalOverflow", generatePassword(), internalCFA)
         internaloflow.buildTrunk(g, a)
     print("sip trunks built")
 

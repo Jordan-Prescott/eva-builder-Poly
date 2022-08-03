@@ -7,7 +7,7 @@ import json
 import fileManager
 class sipTrunk:
     '''sipTrunk class - builds sip trunk under the group'''
-    def __init__(self, type, password, burstingCount = 1, maxActiveCalls = 1):
+    def __init__(self, type, password, CFA = 0, burstingCount = 1, maxActiveCalls = 1):
         ''' SIP trunk is a shared link to make and receive calls and its hosted inside a group
         
         Hierachy: Ent/SP > Group > SIP Trunk > Users
@@ -20,6 +20,7 @@ class sipTrunk:
 
         self.type = type
         self.password = password
+        self.CFA = CFA
         self.maxActiveCalls = maxActiveCalls
         self.burstingCount = burstingCount
     
@@ -90,6 +91,8 @@ class sipTrunk:
             payload["maxActiveCalls"] = 1
             payload["enableBursting"] = False
             payload["burstingMaxActiveCalls"] = 0
+            payload["callForwardingAlwaysAction"] = "Forward"
+            payload["callForwardingAlwaysForwardAddress"] = self.CFA
 
         # API call
         response = requests.post(a.api_host+endpoint,data=json.dumps(payload),headers=headers)

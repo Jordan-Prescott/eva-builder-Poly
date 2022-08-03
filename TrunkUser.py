@@ -98,9 +98,9 @@ class trunkUser:
         }
 
         if self.trunk == "EVA_InternalOverflow":
-            data["trunkAddressing"]["trunkGroupDeviceEndpoint"]["linePort"] = "EVA_InternalOverflow@"+str(g.domain)
+            data["trunkAddressing"]["trunkGroupDeviceEndpoint"]["linePort"] = g.groupID+self.id+"@"+str(g.domain)
         if self.trunk == "EVA_ExternalOverflow":
-            data["trunkAddressing"]["trunkGroupDeviceEndpoint"]["linePort"] = "EVA_ExternalOverflow@"+str(g.domain)
+            data["trunkAddressing"]["trunkGroupDeviceEndpoint"]["linePort"] = g.groupID+self.id+"@"+str(g.domain)
             
 
         # API call
