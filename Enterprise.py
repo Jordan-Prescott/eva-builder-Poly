@@ -13,8 +13,8 @@ class ent:
 
         Hierachy: Ent/SP > Group > User 
 
-        variables:
-        ID(Ent/SP ID), type(Ent or SP Type)
+        :variable ID: Ent/SP ID
+        :variable type: Ent or SP Type
         '''
         super().__init__()
 

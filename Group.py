@@ -13,8 +13,8 @@ class grp:
         
         Hierachy: Ent/SP > Group > User 
 
-        variables:
-        enterpriseID(Ent/SP ID), groupID(Group ID)
+        :variable enterpriseID: Ent/SP ID
+        :variable groupID: Group ID
         '''
         super().__init__()
 

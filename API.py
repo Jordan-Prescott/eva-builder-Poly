@@ -10,8 +10,11 @@ class api:
     def __init__(self, username, password):
         '''API class, sets and stores base URL, Token, Username, and Password for API calls.
     
-        variables:
-        username(Magic Username), password(Magic Password), api_host(Base URL), token(Auth Token), region(Region of Hotel)
+        :variable username: magic Username
+        :variable password: magic Password 
+        :variable api_host: base URL
+        :variable token: auth token
+        :variable region: region of hotel
         '''
         super().__init__()
 

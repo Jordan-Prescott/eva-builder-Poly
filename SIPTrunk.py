@@ -12,8 +12,10 @@ class sipTrunk:
         
         Hierachy: Ent/SP > Group > SIP Trunk > Users
         
-        variables:
-        type(type of 3 trunks), password(authentication password), burtsingCount(number of bursting channels), maxActiveCalls(number of normal channels)
+        :variable type: type of 3 trunks
+        :variable password: authentication password
+        :variable burtsingCount: number of bursting channels
+        :variable maxActiveCalls: number of normal channels
         '''
 
         self.type = type

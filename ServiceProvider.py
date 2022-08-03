@@ -7,8 +7,8 @@ class sPrv: #ServiceProvider Object
         
         Hierachy: Ent/SP > Group > User 
         
-        variables:
-        ID(SP ID), type(Ent or SP Type)
+        :variable ID: Service Provider ID
+        :variable type: Enterprise or ServiceProvider Type
         '''
         super().__init__()
 

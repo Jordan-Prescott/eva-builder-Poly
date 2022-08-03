@@ -12,8 +12,13 @@ class trunkUser:
         
         Hierachy: Ent/SP > Group > User
         
-        variables:
-        id(unique id, start of userId), number(extension number), agentType(license assigned), isPilot(Boolean on if user is pilot), userId(unique userid of user), trunk(trunk user belongs to), password(authenticatoion password)
+        :variable id: unique id start of userId
+        :variable number: extension number
+        :variable agentType: license assigned
+        :variable isPilot: Boolean on if user is pilot
+        :variable userId: unique userid of user
+        :variable trunk: trunk user belongs to
+        :variable password: authenticatoion password
         '''
         super().__init__()
         

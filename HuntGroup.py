@@ -14,8 +14,8 @@ class hg:
         
         Hierachy: Ent/SP > Group > HuntGroup > User
 
-        variables:
-        type(External or Internal), extension(Extension number)
+        :variable type: External or Internal 
+        :variable extension: Extension number
         '''
         super().__init__()
 
