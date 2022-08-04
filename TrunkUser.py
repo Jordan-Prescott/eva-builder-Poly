@@ -1,5 +1,6 @@
 #TrunkUser Class
 #imports
+from wsgiref import headers
 import requests
 import json
 
@@ -250,6 +251,30 @@ class trunkUser:
         if str(response) != '<Response [200]>':
             error = response.json()['error']
             fileManager.fm.writeErrors(f'TrunkUser.setPilot.PUT || {self.userId} || {error}')
+        return response.json()
+
+    def setCallPolicies(self, a):
+        '''
+        if the user belongs to EVA_Poly trunk this sets the users call processing policy to use the users call limits policy 
+        and disable mac number concurrent redirect calls.
+        
+        :param a: API object used for api calls
+        :return: response from PUT request
+        '''
+        endpoint = '/users/call-processing-policy'
+        headers = {
+            "Authorization": "Bearer "+a.token,
+            "Content-Type": "application/json"
+        }
+        data = {
+            "useUserCallLimitsSetting": True,
+            "useMaxConcurrentRedirectedCalls": False,
+            "userId": self.userId 
+        }
+        response = requests.put(a.api_host+endpoint, headers=headers, data=json.dumps(data))
+        if str(response) != '<Response [200]>':
+            error = response.json()['error']
+            fileManager.fm.writeErrors(f'TrunkUser.setCallPolicies.PUT || {self.userId} || {error}')
         return response.json()
 
     def __repr__(self) -> str:

@@ -7,7 +7,3 @@ SIPTrunk.buildTunk.POST || EVA_InternalOverflow || [Error 4408] Trunk Group grou
 TrunkUser.buildUser.POST || JPTest141401_EVA_EL@jptest.ev.com || [Error 4200] User already exists: JPTest141401_EVA_EL@jptest.ev.com
 TrunkUser.buildUser.POST || JPTest141402_EVA_IL@jptest.ev.com || [Error 4200] User already exists: JPTest141402_EVA_IL@jptest.ev.com
 TrunkUser.buildUser.POST || JPTest141403_EVA_ES@jptest.ev.com || [Error 4200] User already exists: JPTest141403_EVA_ES@jptest.ev.com
-HuntGroup.buildHG.POST || internaloflow || [Error 4200] User already exists: EVA_Internal_HG@jptest.ev.com
-HuntGroup.buildHG.POST || internaloflowSB || [Error 4200] User already exists: EVA_Internal_HG_SB@jptest.ev.com
-HuntGroup.buildHG.POST || externaloflow || [Error 4200] User already exists: EVA_External_HG@jptest.ev.com
-HuntGroup.buildHG.POST || externaloflowSB || [Error 4200] User already exists: EVA_External_HG_SB@jptest.ev.com

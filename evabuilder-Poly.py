@@ -286,6 +286,8 @@ def main():
         u.assigntoTrunk(a, g)
         if u.isPilot:
             u.setPilot(a, g)
+        if u.trunk == 'EVA_Poly':
+            u.setCallPolicies(a) 
         print("   Built user "+str(u.id))
 
     if burstingCount > 0:
