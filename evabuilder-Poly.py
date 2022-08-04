@@ -297,6 +297,7 @@ def main():
     if internalcalls: # if internal calls, build internal overflow HG
         intOflowHG = HuntGroup.hg("internaloflow", "141415")
         intOflowHG.buildHG(a, g)
+        intOflowHG.setWeight(a, g)
 
         intOflowHGSB = HuntGroup.hg("internaloflowSB","141417")
         intOflowHGSB.buildHG(a, g)
@@ -305,6 +306,7 @@ def main():
     if externalcalls: # if externa calls are being used, build external overflow HG
         extOflowHG = HuntGroup.hg("externaloflow", "141414")
         extOflowHG.buildHG(a, g)
+        extOflowHG.setWeight(a, g)
 
         extOflowHGSB = HuntGroup.hg("externaloflowSB", "141416")
         extOflowHGSB.buildHG(a, g)
