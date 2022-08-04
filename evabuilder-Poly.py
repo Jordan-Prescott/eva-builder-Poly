@@ -83,21 +83,21 @@ users = [
 
 #methods
 def generatePassword():
-    """
+    '''
     Generates a random string of characters used for passwords 
 
     :return string: Random string of characters 
-    """
+    '''
     characters = string.digits + string.ascii_letters + string.digits
     password = "".join(choice(characters) for x in range(randint(8,16)))
     return password
 
 def displayInputs(a): 
-    """Displays user inputs to the terminal
+    '''Displays user inputs to the terminal
 
     :param a: API objetc used to get the Region inputted by user
     :return: users inputs to the terminal with a number associated
-    """
+    '''
     print("[1] Region: " + a.region.upper()) 
     print("[2] Service Provider ID: " + serviceProviderID)
     print("[3] Group ID: " + groupID)
@@ -109,13 +109,16 @@ def displayInputs(a):
     print("[9] Bursting Count: " + str(burstingCount) + "\n")
 
 def main():
-    """
+    '''
     EVA Builder Script is a script to automate the Broadworks configuration for FourteenIP AI solution EVA.
-    Inputs are taken with details on the group where the configuration needs to be built, the script performs a series of tasks building EVA on Broadworks.
+    Inputs are taken with details on the group where the configuration needs to be built, the script then performs a series of tasks building EVA on Broadworks.
+    The Odin API is used to accomplish this and multiple API calls are used, the Odin API documentation can be found at https://doc.odinapi.net/#intro. Each endpoint
+    for this API is unique so to identify which API call has been used look for the 'endpoint' variable in the scripts method/ function this will give you the 
+    call in the Odin documentation. 
 
     :company: FourteenIP
     :author: Jordan Prescott
-    """
+    '''
 
     # sets all below to global variables so they can be used in other function
     global username
