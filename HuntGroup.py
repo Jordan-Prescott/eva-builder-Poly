@@ -98,7 +98,15 @@ class hg:
 
     def setWeight(self, a, g):
         '''
-        Description:
+        sets the hunt groups weighting call distribution to below:
+
+        External:
+         	141401_EVA_EL: 100%
+ 	        141412_EVA_EOF: 0%
+        
+        External:
+         	141402_EVA_IL: 100%
+ 	        141413_EVA_IOF: 0%
         
         :param a: API object used for api calls
         :param g: Grp object used for details in api calls
