@@ -159,7 +159,7 @@ def main():
 
     menuchoice = str(input("\nWill EVA be used for internal calls? (y/n): "))
     if menuchoice == "y" or menuchoice == "Y":
-        internalCFA = input("    Extension number of internal overflow: ")
+        internalCFA = input("    CFA destination number: ")
         internalcalls = True
         users[1]['build'] = True
         users[3]['build'] = True
@@ -167,7 +167,7 @@ def main():
 
     menuchoice = str(input("Will EVA be used for external calls? (y/n): "))
     if menuchoice == "y" or menuchoice == "Y":
-        externalCFA = input("    Extension number of external overflow: ")
+        externalCFA = input("    CFA destination number: ")
         externalcalls = True
         
     # takes in number of channels and this will affect license appiled later
