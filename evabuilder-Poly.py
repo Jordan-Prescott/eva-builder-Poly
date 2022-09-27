@@ -256,7 +256,7 @@ def main():
     g.increaseCallCapacity(evaAgentCount, a, burstingCount)
 
     # Create trunk group classes
-    st = SIPTrunk.sipTrunk("EVA_Poly", generatePassword(), burstingCount, evaAgentCount)
+    st = SIPTrunk.sipTrunk("EVA_Poly", generatePassword(), burstingCount, maxActiveCalls = evaAgentCount)
     print("Building sip trunks...")
     st.buildTrunk(g, a)
 

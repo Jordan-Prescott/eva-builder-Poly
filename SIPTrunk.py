@@ -21,8 +21,8 @@ class sipTrunk:
         self.type = type
         self.password = password
         self.CFA = CFA
-        self.maxActiveCalls = maxActiveCalls
         self.burstingCount = burstingCount
+        self.maxActiveCalls = maxActiveCalls
     
     def buildTrunk(self, g, a):
         '''
