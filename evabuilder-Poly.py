@@ -7,13 +7,13 @@ import getpass
 from types import BuiltinMethodType
 
 #classes
-import API
-import ServiceProvider
-import Enterprise
-import Group
-import SIPTrunk
-import TrunkUser
-import HuntGroup
+import Magic.API as API
+import Magic.ServiceProvider as ServiceProvider
+import Magic.Enterprise as Enterprise
+import Magic.Group as Group
+import Magic.SIPTrunk as SIPTrunk
+import Magic.TrunkUser as TrunkUser
+import Magic.HuntGroup as HuntGroup
 import fileManager
 
 #variables
