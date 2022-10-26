@@ -57,7 +57,7 @@ class sipTrunk:
             "maxActiveCalls": self.maxActiveCalls,
             "enableBursting": True,
             "burstingMaxActiveCalls": self.burstingCount,
-            "requireAuthentication": True,
+            "requireAuthentication": False,
             "sipAuthenticationUserName": trunkName,
             "sipAuthenticationPassword": self.password,
             "trunkGroupIdentity": trunkName+"@"+g.domain,

@@ -1,7 +1,0 @@
-Enteprise.increaseCallCapacity.PUT || maxActiveCalls: 71 || [Error 5806] Bursting maximum simultaneous calls cannot be limited, because there are groups with unlimited bursting maximum simultaneous calls. The bursting maximum simultaneous calls should first be limited for all the groups before reattempting this operation.
-SIPTrunk.buildTunk.POST || EVA_Poly || [Error 5851] Trunk group with trunk group identity : EVA_Poly@testlab.ev.com already exists.
-SIPTrunk.buildTunk.POST || EVA_ExternalOverflow || [Error 5851] Trunk group with trunk group identity : EVA_ExternalOverflow@testlab.ev.com already exists.
-SIPTrunk.buildTunk.POST || EVA_InternalOverflow || [Error 5851] Trunk group with trunk group identity : EVA_InternalOverflow@testlab.ev.com already exists.
-TrunkUser.setExtensionNumber.PUT || Orlando_Lab141401_EVA_EL@testlab.ev.com || 141401 || [Error 4909] Invalid extension.  The extension length for this group Orlando_Lab is 4 to 4 digits long.
-TrunkUser.assigntoTrunk.PUT || Orlando_Lab141401_EVA_EL@testlab.ev.com || EVA_Poly || 
-TrunkUser.setPilot.PUT || Orlando_Lab141401_EVA_EL@testlab.ev.com || [Error 5126] The trunk group name cannot be found: EVA_Poly.

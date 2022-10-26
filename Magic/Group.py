@@ -53,7 +53,7 @@ class grp:
             "Content-Type": "application/json"
         }
         payload = {
-            "deviceType": "Inference-sbc",
+            "deviceType": "Poly AI - SBC Trunk",
             "deviceName": name,
             "deviceLevel": "Group",
             "serviceProviderId": self.enterpriseID,
