@@ -1,0 +1,8 @@
+Group.createDevice.POST || Poly AI Trunk || [Error 4500] Access Device already exists: Poly AI Trunk
+Group.createDevice.POST || EVA_ExternalOverflow || [Error 4500] Access Device already exists: EVA_ExternalOverflow
+Group.createDevice.POST || EVA_InternalOverflow || [Error 4500] Access Device already exists: EVA_InternalOverflow
+SIPTrunk.buildTunk.POST || EVA_Poly || [Error 4408] Trunk Group group EVA_Poly already exists.
+SIPTrunk.buildTunk.POST || EVA_ExternalOverflow || [Error 4408] Trunk Group group EVA_ExternalOverflow already exists.
+SIPTrunk.buildTunk.POST || EVA_InternalOverflow || [Error 4408] Trunk Group group EVA_InternalOverflow already exists.
+TrunkUser.buildUser.POST || YYZCY141401_EVA_EL@yyzcy.ev.com || [Error 4200] User already exists: YYZCY141401_EVA_EL@yyzcy.ev.com
+TrunkUser.buildUser.POST || YYZCY141402_EVA_IL@yyzcy.ev.com || [Error 4200] User already exists: YYZCY141402_EVA_IL@yyzcy.ev.com

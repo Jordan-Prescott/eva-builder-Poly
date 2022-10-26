@@ -107,8 +107,8 @@ def displayInputs(a):
     print("[6] External Calls: " + str(externalcalls))
     print("[7] Enternal Calls Overflow: " + str(externalCFA))
     print("[8] Agent Count: " + str(evaAgentCount))
-    print("[9] Bursting Count: " + str(burstingCount) + "\n")
-    print("[10] 10% Burtsting:" + str(nonBursting))
+    print("[9] Bursting Count: " + str(burstingCount))
+    print("[10] 10% Burtsting: " + str(nonBursting) + "\n")
 
 def main():
     '''
@@ -176,8 +176,8 @@ def main():
     evaAgentCount = int((input("\nNumber of BASELINE Agents: ")))
     users[0]['license'] = "EVA-AGENT-" + str(evaAgentCount)
     burstingCount = int((input("Number of BURSTING Agents: ")))
-    nonBursting = input("Does the hotel get 10% bursting? (Y/N): ")
-    if nonBursting.upper() == "N":
+    nonBursting = input("\nDoes the hotel get 10% bursting? (y/n): ")
+    if nonBursting.upper() == "Y":
         nonBursting = True
 
     #input validation
@@ -261,7 +261,7 @@ def main():
     g.increaseCallCapacity(evaAgentCount, a, burstingCount)
 
     # Create trunk group classes
-    st = SIPTrunk.sipTrunk("EVA_Poly", generatePassword(), burstingCount, maxActiveCalls = evaAgentCount)
+    st = SIPTrunk.sipTrunk("EVA_Poly", generatePassword(), burstingCount = burstingCount, maxActiveCalls = evaAgentCount)
     print("Building sip trunks...")
     st.buildTrunk(g, a)
 
@@ -297,8 +297,8 @@ def main():
 
     if burstingCount > 0:
         trunkUsers[0].assignBurstServicePack(a, "EVA-AGENTB-" + str(burstingCount))
-    if nonBursting:
-        trunkUsers[0].assignBurstServicePack(a, "EVANONBURSTING")
+    if  nonBursting is False:
+        trunkUsers[0].assignBurstServicePack(a, "EVA-NONBURSTING")
 
     # build internal / external overflow HGs
     if internalcalls: # if internal calls, build internal overflow HG

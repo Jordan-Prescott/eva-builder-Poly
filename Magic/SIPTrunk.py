@@ -7,7 +7,7 @@ import json
 import fileManager
 class sipTrunk:
     '''sipTrunk class - builds sip trunk under the group'''
-    def __init__(self, type, password, CFA = 0, burstingCount = 1, maxActiveCalls = 1):
+    def __init__(self, type, password, CFA = 0, burstingCount = 0, maxActiveCalls = 1):
         ''' SIP trunk is a shared link to make and receive calls and its hosted inside a group
         
         Hierachy: Ent/SP > Group > SIP Trunk > Users
@@ -35,7 +35,7 @@ class sipTrunk:
         if self.type == "EVA_Poly":
             trunkName = "EVA_Poly"
             self.username = trunkName+"@"+g.domain
-            deviceName = "EVA_Poly"
+            deviceName = "Poly AI Trunk"
         elif self.type == "EVA_ExternalOverflow":
             trunkName = "EVA_ExternalOverflow"
             self.username = trunkName+"@"+g.domain
