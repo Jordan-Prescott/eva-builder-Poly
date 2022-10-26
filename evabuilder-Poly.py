@@ -23,6 +23,7 @@ serviceProviderID = ""
 groupID = ""
 evaAgentCount = 0
 burstingCount = 0
+nonBursting = False
 groupDomain = ""
 token = ""
 internalcalls = False
@@ -107,6 +108,7 @@ def displayInputs(a):
     print("[7] Enternal Calls Overflow: " + str(externalCFA))
     print("[8] Agent Count: " + str(evaAgentCount))
     print("[9] Bursting Count: " + str(burstingCount) + "\n")
+    print("[10] 10% Burtsting:" + str(nonBursting))
 
 def main():
     '''
@@ -171,11 +173,12 @@ def main():
         externalcalls = True
         
     # takes in number of channels and this will affect license appiled later
-    evaAgentCount = int((input("\nAgent Count (Including Pilots): ")))
+    evaAgentCount = int((input("\nNumber of BASELINE Agents: ")))
     users[0]['license'] = "EVA-AGENT-" + str(evaAgentCount)
-    menuchoice = input("Will bursting be used? (y/n): ")
-    if menuchoice == "y" or menuchoice == "Y":
-        burstingCount = int((input("    Please enter how many bursting channels are needed: ")))
+    burstingCount = int((input("Number of BURSTING Agents: ")))
+    nonBursting = input("Does the hotel get 10% bursting? (Y/N): ")
+    if nonBursting.upper() == "N":
+        nonBursting = True
 
     #input validation
     print("\nInput Validation:" + "\nREMINDER: Magic is case sensitive" + "\n")
@@ -212,9 +215,11 @@ def main():
             elif numberChoice == "7":
                 externalCFA = input("Extension number of external overflow: ")
             elif numberChoice == "8":
-                evaAgentCount = int((input("Agent Count (Including Pilots): ")))
+                evaAgentCount = int((input("Number of BASELINE Agents: ")))
             elif numberChoice == "9":
-                burstingCount = int(input("Please enter how many bursting channels are needed: "))
+                burstingCount = int(input("Number of BURSTING Agents: "))
+            elif numberChoice == "10":
+                nonBursting = input("Does the hotel get 10% bursting? (Y/N): ")
             else:
                 print("\nInvalid Input") 
 
@@ -242,7 +247,7 @@ def main():
         enterprise.increaseCallCapacity(evaAgentCount, a, burstingCount)
 
     # Create Group Devices
-    g.createDevice("EVA_Poly", a) 
+    g.createDevice("Poly AI Trunk", a) 
     print("Creating EVA_Poly trunk device")  
     if externalcalls: 
         g.createDevice("EVA_ExternalOverflow", a) 
@@ -292,6 +297,8 @@ def main():
 
     if burstingCount > 0:
         trunkUsers[0].assignBurstServicePack(a, "EVA-AGENTB-" + str(burstingCount))
+    if nonBursting:
+        trunkUsers[0].assignBurstServicePack(a, "EVANONBURSTING")
 
     # build internal / external overflow HGs
     if internalcalls: # if internal calls, build internal overflow HG

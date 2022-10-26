@@ -6,11 +6,13 @@ import Magic.SIPTrunk as SIPTrunk
 import Magic.TrunkUser as TrunkUser
 import Magic.HuntGroup as HuntGroup
 
-a = API.api("Jordan.Prescott", "pwh7twx@FVY0dcv0tan")
-a.setAPIHost("US")
-a.getToken()
+# a = API.api("Jordan.Prescott", "pwh7twx@FVY0dcv0tan")
+# a.setAPIHost("US")
+# a.getToken()
 
-g = Group.grp("TestLab","EVA_TEST")
-tu = TrunkUser.trunkUser("EVA_TEST141401_EVA_EL", 2015, "SIP-DID", True, "EVA_TEST141401_EVA_EL@testlab.ev.com", "EVA_Poly", "Blah123456!")
+# g = Group.grp("TestLab","EVA_TEST")
+# tu = TrunkUser.trunkUser("EVA_TEST141401_EVA_EL", 2015, "SIP-DID", True, "EVA_TEST141401_EVA_EL@testlab.ev.com", "EVA_Poly", "Blah123456!")
 
-tu.assigntoTrunk(a,g)
+# tu.assigntoTrunk(a,g)
+
+nonBurstung = input("Does the hotel get 10% bursting? (Y/N)")
