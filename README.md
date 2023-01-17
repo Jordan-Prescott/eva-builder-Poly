@@ -4,7 +4,7 @@ This scripts purpose is to automate the build of FourteenIP's (14IP) AI solution
 NOTE: **Engineer running this script should be following the Build Process document. This document makes reference to specifics found this process.** 
 
 ## How To Run:
-1. Run script 
+1. Run evabuilder-Poly.py
 2. Enter Magic username and password
 3. Enter parameters from questions (Answers can be found in Master Doc)
 4. Check ./lib/errors.txt for any errors that occurred during runtime
