@@ -55,7 +55,7 @@ class ent:
         response = requests.put(a.api_host+endpoint,data=json.dumps(data),headers=headers) # PUT request so it uses payload to identify which group to adjust
         if str(response) != '<Response [200]>':
             error = response.json()['error']
-            fileManager.fm.writeErrors(f'Enteprise.increaseCallCapacity.PUT || maxActiveCalls: {currentmaxcall + channels} || {error}')
+            fileManager.fm.writeErrors(f'Enteprise.increaseCallCapacity.PUT || maxActiveCalls: {currentmaxcall + channels + bursting} || {error}')
         return response.json()
 
     def getCallCapacity(self, a):
