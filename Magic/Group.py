@@ -16,7 +16,6 @@ class grp:
         :variable enterpriseID: Ent/SP ID
         :variable groupID: Group ID
         '''
-        super().__init__()
 
         self.enterpriseID = enterpriseID
         self.groupID = groupID
@@ -79,7 +78,7 @@ class grp:
         currentmaxcall = currentCapacity['maxActiveCalls']
         currentbursting = currentCapacity['burstingMaxActiveCalls']
 
-        print(f'Increasing from: Max Active Calls - {currentmaxcall} Max Bursting Calls - {currentbursting} to: Max Active Calls - {currentmaxcall + channels} Max Bursting Calls - {currentbursting + bursting}')
+        print(f'Increasing from: Max Active Calls - {currentmaxcall} Max Bursting Calls - {currentbursting} to: Max Active Calls - {currentmaxcall + channels + bursting}')
 
         endpoint = "/groups/trunk-groups/call-capacity"
         headers = {
@@ -87,17 +86,17 @@ class grp:
             "Content-Type": "application/json"
         }
         data = {
-            "maxActiveCalls": currentmaxcall + channels,
+            "maxActiveCalls": currentmaxcall + channels + bursting,
             "serviceProviderId": self.enterpriseID,
             "groupId": self.groupID
         }
-        if bursting != 0:
-            data["burstingMaxActiveCalls"] = currentbursting + bursting
+        # if bursting != 0: #REMOVED: bursting is now added into maxActiveCalls
+        #     data["burstingMaxActiveCalls"] = currentbursting + bursting
 
         response = requests.put(a.api_host+endpoint,data=json.dumps(data),headers=headers)
         if str(response) != '<Response [200]>':
             error = response.json()['error']
-            fileManager.fm.writeErrors(f'Group.increaseCallCapacity.PUT || maxActiveCalls: {currentmaxcall + channels} || {error}')
+            fileManager.fm.writeErrors(f'Group.increaseCallCapacity.PUT || maxActiveCalls: {currentmaxcall + channels + bursting} || {error}')
         return response.json()
 
     def getCallCapacity(self, a): 

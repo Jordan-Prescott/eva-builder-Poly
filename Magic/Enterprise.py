@@ -16,7 +16,6 @@ class ent:
         :variable ID: Ent/SP ID
         :variable type: Ent or SP Type
         '''
-        super().__init__()
 
         self.ID = ID
         self.type = type
@@ -34,7 +33,7 @@ class ent:
         currentmaxcall = currentCapacity['maxActiveCalls']
         currentbursting = currentCapacity['burstingMaxActiveCalls']
 
-        print(f'Increasing from: Max Active Calls - {currentmaxcall} Max Bursting Calls - {currentbursting} to: Max Active Calls - {currentmaxcall + channels} Max Bursting Calls - {currentbursting + bursting}')
+        print(f'Increasing from: Max Active Calls - {currentmaxcall} Max Bursting Calls - {currentbursting} to: Max Active Calls - {currentmaxcall + channels + bursting}')
 
         if currentbursting == -1: # if no bursting capacity set to 0 
             currentbursting = 0
@@ -45,17 +44,18 @@ class ent:
             "Content-Type": "application/json"
         }
         data = {
-            "maxActiveCalls": currentmaxcall + channels,
+            "maxActiveCalls": currentmaxcall+channels+bursting,
             "serviceProviderId": self.ID
         }
         
-        if bursting != 0: # if bursting capacity is set (passed into method increaseCallCapacity)
-            data["burstingMaxActiveCalls"] = currentbursting + bursting
+        #REMOVED: bursting is now added into maxActiveCalls
+        # if bursting != 0: # if bursting capacity is set (passed into method increaseCallCapacity)
+        #     data["burstingMaxActiveCalls"] = currentbursting + bursting
 
         response = requests.put(a.api_host+endpoint,data=json.dumps(data),headers=headers) # PUT request so it uses payload to identify which group to adjust
         if str(response) != '<Response [200]>':
             error = response.json()['error']
-            fileManager.fm.writeErrors(f'Enteprise.increaseCallCapacity.PUT || maxActiveCalls: {currentmaxcall + channels} || {error}')
+            fileManager.fm.writeErrors(f'Enteprise.increaseCallCapacity.PUT || maxActiveCalls: {currentmaxcall + channels + bursting} || {error}')
         return response.json()
 
     def getCallCapacity(self, a):

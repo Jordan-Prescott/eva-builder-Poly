@@ -147,7 +147,6 @@ def main():
     #create api object
     a = API.api(username, password)
     a.setAPIHost(region.upper())
-    
     try:
         a.getToken()
     except KeyError:
@@ -179,6 +178,8 @@ def main():
     nonBursting = input("\nDoes the hotel get 10% bursting? (y/n): ")
     if nonBursting.upper() == "Y":
         nonBursting = True
+    else:
+        nonBursting = False
 
     #input validation
     print("\nInput Validation:" + "\nREMINDER: Magic is case sensitive" + "\n")
@@ -220,6 +221,10 @@ def main():
                 burstingCount = int(input("Number of BURSTING Agents: "))
             elif numberChoice == "10":
                 nonBursting = input("Does the hotel get 10% bursting? (Y/N): ")
+                if nonBursting.upper() == "Y":
+                    nonBursting = True
+                else:
+                    nonBursting = False
             else:
                 print("\nInvalid Input") 
 

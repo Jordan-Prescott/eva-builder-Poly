@@ -1,0 +1,8 @@
+Group.createDevice.POST || Poly AI Trunk || [Error 4500] Access Device already exists: Poly AI Trunk
+Group.createDevice.POST || EVA_ExternalOverflow || [Error 4500] Access Device already exists: EVA_ExternalOverflow
+SIPTrunk.buildTunk.POST || EVA_Poly || [Error 5851] Trunk group with trunk group identity : EVA_Poly@voip.14ip.net already exists.
+SIPTrunk.buildTunk.POST || EVA_ExternalOverflow || [Error 5851] Trunk group with trunk group identity : EVA_ExternalOverflow@voip.14ip.net already exists.
+TrunkUser.buildUser.POST || FourteenIPUK141401_EVA_EL@voip.14ip.net || [Error 4200] User already exists: FourteenIPUK141401_EVA_EL
+TrunkUser.assigntoTrunk.PUT || FourteenIPUK141401_EVA_EL@voip.14ip.net || EVA_Poly || 
+TrunkUser.setPilot.PUT || FourteenIPUK141401_EVA_EL@voip.14ip.net || [Error 5126] The trunk group name cannot be found: EVA_Poly.
+TrunkUser.buildUser.POST || FourteenIPUK141403_EVA_ES@voip.14ip.net || [Error 4200] User already exists: FourteenIPUK141403_EVA_ES
