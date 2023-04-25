@@ -133,6 +133,7 @@ def main():
     global burstingCount
     global externalCFA
     global internalCFA
+    global nonBursting
     
     fileManager.fm.clearErrors() #clears errors in ./lib/errors.txt from previous run
 
